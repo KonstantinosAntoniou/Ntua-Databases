@@ -5,50 +5,52 @@ USE ntuadb;
 
 CREATE TABLE Customer(
     NFC_ID INT NOT NULL IDENTITY(1,1),
-    firstname VARCHAR(200) NOT NULL,
-    lastname VARCHAR(200) NOT NULL,
+    -- NFC_ID INT NOT NULL AUTO_INCREMENT,
+    firstname VARCHAR(20) NOT NULL,
+    lastname VARCHAR(20) NOT NULL,
     dateofbirth DATE NOT NULL,
-    number_of_indentification_document INT NOT NULL,
-    type_of_indentification_document VARCHAR(200) NOT NULL,
-    issuing_authority VARCHAR(200) NOT NULL,
+    number_of_indentification_document VARCHAR(20) NOT NULL,
+    type_of_indentification_document VARCHAR(20) NOT NULL,
+    issuing_authority VARCHAR(30) NOT NULL,
     PRIMARY KEY (NFC_ID)
 );
 
 CREATE TABLE Customer_emails(
     NFC_ID INT NOT NULL,
-    email VARCHAR(200) NOT NULL,
+    email VARCHAR(70) NOT NULL,
     PRIMARY KEY (NFC_ID, email), FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE
 );
 
 CREATE TABLE Customer_phones(
     NFC_ID INT NOT NULL,
-    phone BIGINT NOT NULL,
+    phone VARCHAR(30) NOT NULL,
     PRIMARY KEY (NFC_ID, phone), FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE
 );
 
-CREATE TABLE Facilities(
-    facility_ID INT NOT NULL,
-    facility_description VARCHAR(20) NOT NULL,
-    PRIMARY KEY (facility_ID)
+CREATE TABLE Services(
+    service_ID INT NOT NULL IDENTITY(1,1),
+    -- service_ID INT NOT NULL AUTO_INCREMENT,
+    service_description VARCHAR(50) NOT NULL,
+    PRIMARY KEY (service_ID)
 );
 
-CREATE TABLE Facilities_that_need_registration(
-    facility_ID INT NOT NULL,
-    PRIMARY KEY (facility_ID),
-    FOREIGN KEY (facility_ID) REFERENCES Facilities(facility_ID) ON DELETE CASCADE
+CREATE TABLE Services_that_need_registration(
+    service_ID INT NOT NULL,
+    PRIMARY KEY (service_ID),
+    FOREIGN KEY (service_ID) REFERENCES Services(service_ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-CREATE TABLE Facilities_that_dont_need_registration(
-    facility_ID INT NOT NULL,
-    PRIMARY KEY (facility_ID),
-    FOREIGN KEY (facility_ID) REFERENCES Facilities(facility_ID) ON DELETE CASCADE
+CREATE TABLE Services_that_dont_need_registration(
+    service_ID INT NOT NULL,
+    PRIMARY KEY (service_ID),
+    FOREIGN KEY (service_ID) REFERENCES Services(service_ID) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Hotel_rooms(
     hotel_room_ID INT NOT NULL PRIMARY KEY,
     number_of_beds INT NOT NULL,
     name_of_the_room VARCHAR(25) NOT NULL,
-    description_of_position VARCHAR(25) NOT NULL
+    description_of_position VARCHAR(40) NOT NULL
 );
 
 CREATE TABLE Have_access(
@@ -71,32 +73,40 @@ CREATE TABLE Visit(
     FOREIGN KEY (hotel_room_ID) REFERENCES Hotel_rooms(hotel_room_ID) ON DELETE CASCADE
 );
 
-CREATE TABLE Registered_to_facilities(
+CREATE TABLE Registered_to_services(
     NFC_ID INT NOT NULL,
-    facility_ID INT NOT NULL,
+    service_ID INT NOT NULL,
     datetime_of_registration DATETIME NOT NULL,
-    PRIMARY KEY (NFC_ID, facility_ID),
+    PRIMARY KEY (NFC_ID, service_ID),
     FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE,
-    FOREIGN KEY (facility_ID) REFERENCES Facilities_that_need_registration(facility_ID) ON DELETE CASCADE
+    FOREIGN KEY (service_ID) REFERENCES Services_that_need_registration(service_ID) ON DELETE CASCADE
 );
 
 CREATE TABLE Provided_to(
     hotel_room_ID INT NOT NULL,
-    facility_ID INT NOT NULL,
-    PRIMARY KEY (hotel_room_ID, facility_ID),
-    FOREIGN KEY (facility_ID) REFERENCES Facilities(facility_ID) ON DELETE CASCADE,
+    service_ID INT NOT NULL,
+    PRIMARY KEY (hotel_room_ID, service_ID),
+    FOREIGN KEY (service_ID) REFERENCES Services(service_ID) ON DELETE CASCADE,
     FOREIGN KEY (hotel_room_ID) REFERENCES Hotel_rooms(hotel_room_ID) ON DELETE CASCADE
 );
 
-CREATE TABLE Charge_for_facility(
+CREATE TABLE Charge_for_service(
     datetime_of_the_event DATETIME NOT NULL,
-    charge_description VARCHAR(25) NOT NULL,
+    charge_description VARCHAR(30) NOT NULL,
     amount FLOAT NOT NULL,
     NFC_ID INT NOT NULL,
-    facility_ID INT NOT NULL,
-    PRIMARY KEY (datetime_of_the_event, facility_ID, NFC_ID),
-    FOREIGN KEY (facility_ID) REFERENCES Facilities(facility_ID) ON DELETE CASCADE,
+    service_ID INT NOT NULL,
+    PRIMARY KEY (datetime_of_the_event, service_ID, NFC_ID),
+    FOREIGN KEY (service_ID) REFERENCES Services(service_ID) ON DELETE CASCADE,
     FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE
 );
 
-
+CREATE TABLE Receive_services(
+    NFC_ID INT NOT NULL,
+    service_ID INT NOT NULL,
+    datetime_of_the_event DATETIME NOT NULL,
+    PRIMARY KEY(NFC_ID, service_ID, datetime_of_the_event),
+    FOREIGN KEY (service_ID) REFERENCES Services(service_ID) ON DELETE CASCADE,
+    FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE,
+    FOREIGN KEY (datetime_of_the_event) REFERENCES Charge_for_service(datetime_of_the_event) ON DELETE CASCADE
+);
