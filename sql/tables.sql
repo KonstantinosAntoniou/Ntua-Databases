@@ -50,14 +50,14 @@ CREATE TABLE Hotel_rooms(
     hotel_room_ID INT NOT NULL PRIMARY KEY,
     number_of_beds INT NOT NULL,
     name_of_the_room VARCHAR(25) NOT NULL,
-    description_of_position VARCHAR(40) NOT NULL
+    description_of_position VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Have_access(
     NFC_ID INT NOT NULL,
     hotel_room_ID INT NOT NULL,
-    starting_time TIME(0) NOT NULL,
-    ending_time TIME(0) NOT NULL,
+    starting_time_date DATETIME NOT NULL,
+    ending_time_date DATETIME NOT NULL,
     PRIMARY KEY (NFC_ID, hotel_room_ID),
     FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE,
     FOREIGN KEY (hotel_room_ID) REFERENCES Hotel_rooms(hotel_room_ID) ON DELETE CASCADE
@@ -66,8 +66,8 @@ CREATE TABLE Have_access(
 CREATE TABLE Visit(
     NFC_ID INT NOT NULL,
     hotel_room_ID INT NOT NULL,
-    time_of_entrance TIME(0) NOT NULL,
-    time_of_exit TIME(0) NOT NULL,
+    date_time_of_entrance DATETIME NOT NULL,
+    date_time_of_exit DATETIME NOT NULL,
     PRIMARY KEY (NFC_ID, hotel_room_ID),
     FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE,
     FOREIGN KEY (hotel_room_ID) REFERENCES Hotel_rooms(hotel_room_ID) ON DELETE CASCADE
