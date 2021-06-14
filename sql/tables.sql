@@ -28,8 +28,9 @@ CREATE TABLE Customer_phones(
 );
 
 CREATE TABLE Services(
-    service_ID INT NOT NULL IDENTITY(1,1),
+    -- service_ID INT NOT NULL IDENTITY(1,1),
     -- service_ID INT NOT NULL AUTO_INCREMENT,
+    service_ID INT NOT NULL,
     service_description VARCHAR(50) NOT NULL,
     PRIMARY KEY (service_ID)
 );
@@ -68,7 +69,7 @@ CREATE TABLE Visit(
     hotel_room_ID INT NOT NULL,
     date_time_of_entrance DATETIME NOT NULL,
     date_time_of_exit DATETIME NOT NULL,
-    PRIMARY KEY (NFC_ID, hotel_room_ID),
+    PRIMARY KEY (NFC_ID, hotel_room_ID, date_time_of_entrance),
     FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE,
     FOREIGN KEY (hotel_room_ID) REFERENCES Hotel_rooms(hotel_room_ID) ON DELETE CASCADE
 );
@@ -92,8 +93,8 @@ CREATE TABLE Provided_to(
 
 CREATE TABLE Charge_for_service(
     datetime_of_the_event DATETIME NOT NULL,
-    charge_description VARCHAR(30) NOT NULL,
-    amount FLOAT NOT NULL,
+    charge_description VARCHAR(80) NOT NULL,
+    amount INT NOT NULL,
     NFC_ID INT NOT NULL,
     service_ID INT NOT NULL,
     PRIMARY KEY (datetime_of_the_event, service_ID, NFC_ID),
