@@ -39,3 +39,14 @@ function deleteRoom (req, res) {
     })
 }
 exports.deleteRoom = deleteRoom
+
+
+
+function getRoom (req, res) {
+    get_Room = `SELECT * FROM Hotel_rooms WHERE hotel_room_ID=${req.params.hotel_room_ID};`
+    db.query(get_Room, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else res.send()
+    })
+}
+exports.getRoom = getRoom
