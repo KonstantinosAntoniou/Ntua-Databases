@@ -1,4 +1,4 @@
-const db = require('../db')
+const db = require('../server.js')
 
 function insertService (req, res) {
     const newService = "INSERT INTO Services (service_description)"

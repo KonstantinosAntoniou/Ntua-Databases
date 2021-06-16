@@ -1,4 +1,4 @@
-const mysql = require('mysql')
+const mysql = require('mysql');
 const cors = require('cors');
 
 const express = require('express'),
@@ -7,7 +7,7 @@ const express = require('express'),
 
 //const port = process.env.PORT || 8765;
 
-const db = mysql.createConnection({
+let db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'mysqlpassword',  //Your Password HERE!
@@ -22,7 +22,7 @@ db.connect(err => {
 app.use(cors())
 app.use(bodyParser.json())
 
-var routes = require('./app/routes/appRoutes.js'); //importing route
+var routes = require('./routes/appRoutes.js'); //importing route
 routes(app); //register the route
 
 app.listen(8765, () => {

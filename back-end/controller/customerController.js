@@ -1,4 +1,4 @@
-const db = require('../db')
+const db = require('../server.js')
 
 function insertCustomer (req, res) {
     const phones = req.body.phone

@@ -1,4 +1,5 @@
-const db = require('../db')
+//const db = require('../server.js');
+const sql = require('./db.js');
 
 function insertRoom (req, res) {
     const newRoom = "INSERT INTO Hotel_rooms (number_of_beds, name_of_the_room, description_of_position)"
@@ -44,9 +45,19 @@ exports.deleteRoom = deleteRoom
 
 function getRoom (req, res) {
     get_Room = `SELECT * FROM Hotel_rooms WHERE hotel_room_ID=${req.params.hotel_room_ID};`
-    db.query(get_Room, (err, rows) => {
+    sql.query(get_Room, (err, rows) => {
         if(err) res.status(400).send(err.message) 
-        else res.send()
+        else res.send(rows)
     })
 }
-exports.getRoom = getRoom
+exports.getRoom = getRoom;
+
+/*
+exports.getRoom2 = function(req,res){
+    get_Room2 = `SELECT * FROM Hotel_rooms WHERE hotel_room_ID=${req.params.hotel_room_ID};`
+    sql.query(get_Room2, function(err2,res2){
+        if(err2) res.status(400).send(err2.message)
+        else res.send(res2)
+    })
+}
+*/
