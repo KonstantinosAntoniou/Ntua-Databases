@@ -6,8 +6,7 @@ function trackCustomersVisits (req, res) {
             + "FROM Visit "
             + "USE INDEX(visit_date_and_time) "
             + "JOIN Hotel_rooms USING (hotel_room_ID) "
-            + `WHERE Visit.NFC_ID = ${req.params.NFC_ID} `
-            + "ORDER BY date_time_of_entrance ;"
+            + `WHERE Visit.NFC_ID = ${req.params.NFC_ID} ;`
     
     db.query(track_moves, (err, rows) => {
         if(err) res.status(400).send(err.message)
