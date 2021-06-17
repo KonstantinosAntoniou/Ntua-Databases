@@ -1,7 +1,8 @@
 module.exports = (app) => {
     const { insertCustomer, updateCustomer, deleteCustomer, getCustomer, getAllCustomers} = require('../controller/customerController.js')
     const { insertRoom, updateRoom, deleteRoom, getRoom, getAllRooms} = require('../controller/roomsController.js')
-    const { insertService, updateService, deleteService, getService, getAllServices} = require('../controller/servicesController.js')
+    const { insertService, updateService, deleteService, getService, getAllServices, getServiceVisitsWithCriteria} = require('../controller/servicesController.js')
+    const {trackCustomersVisits, mostUsedRooms, mostUsedServices, servicesUsedByTheMostPeople} = require('../controller/trackingController.js')
     //const gett = require('../controller/roomsController.js')
 
     app.route('/db/api/customers')
@@ -12,8 +13,6 @@ module.exports = (app) => {
         .get(getCustomer)
         .put(updateCustomer)
         .delete(deleteCustomer);
-
-
 
 
     app.route('/db/api/rooms')
@@ -28,8 +27,6 @@ module.exports = (app) => {
     /*app.route('/db/api/rooms2/:hotel_room_ID')
         .get(gett.getRoom2);
     */
-
-
         
     app.route('/db/api/services')
         .get(getAllServices)
@@ -39,4 +36,19 @@ module.exports = (app) => {
         .get(getService)
         .put(updateService)
         .delete(deleteService);
+
+    app.route('/db/api/servicesCriteria')
+        .get(getServiceVisitsWithCriteria);
+
+    app.route('/db/api/tracking/:NFC_ID')
+        .get(trackCustomersVisits);
+
+    app.route('/db/api/mostUsedRooms')
+        .get(mostUsedRooms);
+
+    app.route('/db/api/mostUsedServices')
+        .get(mostUsedServices);
+
+    app.route('/db/api/servicesUsedByTheMostPeople')
+        .get(servicesUsedByTheMostPeople);
 }
