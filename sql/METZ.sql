@@ -7,37 +7,109 @@ SELECT hotel_room_ID, name_of_the_room, date_time_of_entrance, date_time_of_exit
 FROM Visit USE INDEX(visit_date_and_time) JOIN Hotel_rooms USING (hotel_room_ID)
 WHERE Visit.NFC_ID = 1;  -- εδω βαζεις το ιδ που θες καθε φορα
 
-SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "20-40" AS AGE_GROUP -- 11β αλλαζεις το 30 με 365 και εισαι κομπλε
+-- 11a
+SELECT hotel_room_ID, name_of_the_room, description_of_position, COUNT(hotel_room_ID) AS NO_of_People_visited, "20-40" AS AGE_GROUP, "Last year" AS TIMEFRAME
+FROM Hotel_rooms
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
+GROUP BY hotel_room_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT hotel_room_ID, name_of_the_room, description_of_position, COUNT(hotel_room_ID) AS NO_of_People_visited, "41-60" AS AGE_GROUP, "Last year" AS TIMEFRAME
+FROM Hotel_rooms
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 41 AND 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
+GROUP BY hotel_room_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT hotel_room_ID, name_of_the_room, description_of_position, COUNT(hotel_room_ID) AS NO_of_People_visited, "61+" AS AGE_GROUP, "Last year" AS TIMEFRAME
+FROM Hotel_rooms
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
+GROUP BY hotel_room_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT hotel_room_ID, name_of_the_room, description_of_position, COUNT(hotel_room_ID) AS NO_of_People_visited, "20-40" AS AGE_GROUP, "Last month" AS TIMEFRAME
+FROM Hotel_rooms
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30)
+GROUP BY hotel_room_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT hotel_room_ID, name_of_the_room, description_of_position, COUNT(hotel_room_ID) AS NO_of_People_visited, "41-60" AS AGE_GROUP, "Last month" AS TIMEFRAME
+FROM Hotel_rooms
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 41 AND 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30)
+GROUP BY hotel_room_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT hotel_room_ID, name_of_the_room, description_of_position, COUNT(hotel_room_ID) AS NO_of_People_visited, "61+" AS AGE_GROUP, "Last month" AS TIMEFRAME
+FROM Hotel_rooms
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30)
+GROUP BY hotel_room_ID, AGE_GROUP, TIMEFRAME
+ORDER BY TIMEFRAME, AGE_GROUP, NO_of_People_visited DESC;
+
+
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "20-40" AS AGE_GROUP, "Last year" AS TIMEFRAME -- 11β 
 FROM Services
 JOIN Provided_to USING (service_ID)
 JOIN Hotel_rooms USING (hotel_room_ID)
 JOIN Visit USING (hotel_room_ID)
 JOIN Customer USING (NFC_ID)
 WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
-GROUP BY service_ID, AGE_GROUP
+GROUP BY service_ID, AGE_GROUP, TIMEFRAME
 UNION
-SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "40-60" AS AGE_GROUP 
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "40-60" AS AGE_GROUP , "Last year" AS TIMEFRAME
 FROM Services
 JOIN Provided_to USING (service_ID)
 JOIN Hotel_rooms USING (hotel_room_ID)
 JOIN Visit USING (hotel_room_ID)
 JOIN Customer USING (NFC_ID)
 WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 41 AND 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
-GROUP BY service_ID, AGE_GROUP
+GROUP BY service_ID, AGE_GROUP, TIMEFRAME
 UNION
-SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "61+" AS AGE_GROUP 
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "61+" AS AGE_GROUP , "Last year" AS TIMEFRAME
 FROM Services
 JOIN Provided_to USING (service_ID)
 JOIN Hotel_rooms USING (hotel_room_ID)
 JOIN Visit USING (hotel_room_ID)
 JOIN Customer USING (NFC_ID)
 WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
-GROUP BY service_ID, AGE_GROUP
-ORDER BY AGE_GROUP, Used_times DESC;
+GROUP BY service_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "20-40" AS AGE_GROUP, "Last month" AS TIMEFRAME 
+FROM Services
+JOIN Provided_to USING (service_ID)
+JOIN Hotel_rooms USING (hotel_room_ID)
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30)
+GROUP BY service_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "40-60" AS AGE_GROUP, "Last month" AS TIMEFRAME 
+FROM Services
+JOIN Provided_to USING (service_ID)
+JOIN Hotel_rooms USING (hotel_room_ID)
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 41 AND 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30)
+GROUP BY service_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "61+" AS AGE_GROUP, "Last month" AS TIMEFRAME 
+FROM Services
+JOIN Provided_to USING (service_ID)
+JOIN Hotel_rooms USING (hotel_room_ID)
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30)
+GROUP BY service_ID, AGE_GROUP, TIMEFRAME
+ORDER BY TIMEFRAME, AGE_GROUP, Used_times DESC;
 
 -- 11γ
 
-SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "20-40" AS AGE_GROUP FROM(
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "20-40" AS AGE_GROUP, "Last year" AS TIMEFRAME FROM(
 SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
 FROM Charge_for_service
 JOIN Customer USING (NFC_ID)
@@ -45,9 +117,9 @@ JOIN Services USING (service_ID)
 JOIN Provided_to USING (service_ID)
 JOIN Visit USING (hotel_room_ID)
 WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365))) T
-group by service_ID, AGE_GROUP
+group by service_ID, AGE_GROUP, TIMEFRAME
 UNION
-SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "41-60" AS AGE_GROUP FROM(
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "41-60" AS AGE_GROUP, "Last year" AS TIMEFRAME FROM(
 SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
 FROM Charge_for_service
 JOIN Customer USING (NFC_ID)
@@ -55,9 +127,9 @@ JOIN Services USING (service_ID)
 JOIN Provided_to USING (service_ID)
 JOIN Visit USING (hotel_room_ID)
 WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 41 AND 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365))) T
-group by service_ID, AGE_GROUP
+group by service_ID, AGE_GROUP, TIMEFRAME
 UNION
-SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "61+" AS AGE_GROUP FROM(
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "61+" AS AGE_GROUP, "Last year" AS TIMEFRAME FROM(
 SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
 FROM Charge_for_service
 JOIN Customer USING (NFC_ID)
@@ -65,8 +137,38 @@ JOIN Services USING (service_ID)
 JOIN Provided_to USING (service_ID)
 JOIN Visit USING (hotel_room_ID)
 WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365))) T
-group by service_ID, AGE_GROUP
-ORDER BY AGE_GROUP, Users_using_this_service DESC;
+group by service_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "20-40" AS AGE_GROUP, "Last month" AS TIMEFRAME FROM(
+SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
+FROM Charge_for_service
+JOIN Customer USING (NFC_ID)
+JOIN Services USING (service_ID) 
+JOIN Provided_to USING (service_ID)
+JOIN Visit USING (hotel_room_ID)
+WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30))) T
+group by service_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "41-60" AS AGE_GROUP, "Last month" AS TIMEFRAME FROM(
+SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
+FROM Charge_for_service
+JOIN Customer USING (NFC_ID)
+JOIN Services USING (service_ID) 
+JOIN Provided_to USING (service_ID)
+JOIN Visit USING (hotel_room_ID)
+WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 41 AND 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30))) T
+group by service_ID, AGE_GROUP, TIMEFRAME
+UNION
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "61+" AS AGE_GROUP, "Last month" AS TIMEFRAME FROM(
+SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
+FROM Charge_for_service
+JOIN Customer USING (NFC_ID)
+JOIN Services USING (service_ID) 
+JOIN Provided_to USING (service_ID)
+JOIN Visit USING (hotel_room_ID)
+WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 30))) T
+group by service_ID, AGE_GROUP, TIMEFRAME
+ORDER BY TIMEFRAME, AGE_GROUP, Users_using_this_service DESC;
 
 SELECT * FROM Servises;  -- 7 απλα υπηρεσιες
 SELECT * FROM Services_that_need_registration;  -- αυτα τα 2 ειναι με το κριτηριο ειδος υπηρεσιας
