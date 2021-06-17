@@ -170,7 +170,12 @@ WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (D
 group by service_ID, AGE_GROUP, TIMEFRAME
 ORDER BY TIMEFRAME, AGE_GROUP, Users_using_this_service DESC;
 
-SELECT * FROM Servises;  -- 7 απλα υπηρεσιες
+
+
+
+
+
+SELECT * FROM Services;  -- 7 απλα υπηρεσιες
 SELECT * FROM Services_that_need_registration;  -- αυτα τα 2 ειναι με το κριτηριο ειδος υπηρεσιας
 SELECT * FROM Services_that_dont_need_registration;
 

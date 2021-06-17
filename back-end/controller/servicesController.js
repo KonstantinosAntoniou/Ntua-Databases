@@ -88,3 +88,109 @@ function getAllServices (req, res) {
     })
 }
 exports.getAllServices = getAllServices;
+
+
+function getServiceVisitsWithCriteria (req, res) {
+    const date_time_of_entrance = (req.body.date_time_of_entrance) ? `DATE(Visit.date_time_of_entrance)='${req.body.date_time_of_entrance}' AND` : ""
+    const service_ID = (req.body.service_ID) ? `service_ID=${req.body.service_ID} AND` : ""
+    const amount = (req.body.amount) ? `amount=${req.body.amount} AND` : ""
+    const helpfull = `3>2`
+    const must_register = req.body.must_register;
+
+    if(must_register=='yes') {
+        get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
+            + "FROM Visit "
+            + "JOIN Hotel_rooms USING (hotel_room_ID) "
+            + "JOIN Provided_to USING (hotel_room_ID) "
+            + "JOIN Services USING (service_ID) "
+            + "JOIN Services_that_need_registration USING (service_ID) "
+            + "JOIN Charge_for_service USING (service_ID) "
+            + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};`
+    }
+
+    else if(must_register=='no') {
+        get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, 'no cost' as amount "
+            + "FROM Visit "
+            + "JOIN Hotel_rooms USING (hotel_room_ID) "
+            + "JOIN Provided_to USING (hotel_room_ID) "
+            + "JOIN Services USING (service_ID) "
+            + "JOIN Services_that_dont_need_registration USING (service_ID) "
+            + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};`
+    }
+    else {
+        get_Services_criteria0 = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
+            + "FROM Visit "
+            + "JOIN Hotel_rooms USING (hotel_room_ID) "
+            + "JOIN Provided_to USING (hotel_room_ID) "
+            + "JOIN Services USING (service_ID) "
+            + "JOIN Services_that_need_registration USING (service_ID) "
+            + "JOIN Charge_for_service USING (service_ID) "
+            + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull}`
+
+        get_Services_criteria1 = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, 'no cost' as amount "
+            + "FROM Visit "
+            + "JOIN Hotel_rooms USING (hotel_room_ID) "
+            + "JOIN Provided_to USING (hotel_room_ID) "
+            + "JOIN Services USING (service_ID) "
+            + "JOIN Services_that_dont_need_registration USING (service_ID) "
+            + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};` 
+            
+        get_Services_criteria = get_Services_criteria0 + " UNION " + get_Services_criteria1;
+    }
+
+    db.query(get_Services_criteria, (err, rows) => {
+        if(err) res.status(400).send(err.message)
+        else res.send(rows)
+    })
+}
+exports.getServiceVisitsWithCriteria = getServiceVisitsWithCriteria;
+
+
+/*
+function getServiceVisitsWithCriteria (req, res) {
+    const date_time_of_entrance = (req.body.date_time_of_entrance) ? `DATE(Visit.date_time_of_entrance)='${req.body.date_time_of_entrance}' AND` : ""
+    const service_ID = (req.body.service_ID) ? `service_ID=${req.body.service_ID} AND` : ""
+    const amount = (req.body.amount) ? `amount=${req.body.amount} AND` : ""
+    const helpfull = `3>2`
+    const must_register = req.body.must_register;
+
+
+   
+            if(must_register=='yes') {
+                get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
+                    + "FROM Visit "
+                    + "JOIN Hotel_rooms USING (hotel_room_ID) "
+                    + "JOIN Provided_to USING (hotel_room_ID) "
+                    + "JOIN Services USING (service_ID) "
+                    + "JOIN Services_that_need_registration USING (service_ID) "
+                    + "JOIN Charge_for_service USING (service_ID) "
+                    + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};`
+            }
+        
+            else if(must_register=='no') {
+                get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
+                    + "FROM Visit "
+                    + "JOIN Hotel_rooms USING (hotel_room_ID) "
+                    + "JOIN Provided_to USING (hotel_room_ID) "
+                    + "JOIN Services USING (service_ID) "
+                    + "JOIN Services_that_dont_need_registration USING (service_ID) "
+                    + "JOIN Charge_for_service USING (service_ID) "
+                    + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};`
+            }
+            else {
+                get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
+                    + "FROM Visit "
+                    + "JOIN Hotel_rooms USING (hotel_room_ID) "
+                    + "JOIN Provided_to USING (hotel_room_ID) "
+                    + "JOIN Services USING (service_ID) "
+                    + "JOIN Charge_for_service USING (service_ID) "
+                    + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};`
+            }
+        
+            db.query(get_Services_criteria, (err, rows) => {
+                if(err) res.status(400).send(err.message)
+                else res.send(rows)
+            })
+        }
+        exports.getServiceVisitsWithCriteria = getServiceVisitsWithCriteria;
+    */
