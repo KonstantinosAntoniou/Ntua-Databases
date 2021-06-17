@@ -171,7 +171,16 @@ group by service_ID, AGE_GROUP, TIMEFRAME
 ORDER BY TIMEFRAME, AGE_GROUP, Users_using_this_service DESC;
 
 
+--                    ERWTHMA 10 -----------------------------------
 
+SELECT distinct ts.NFC_ID AS Possibly_exposed_customer_ID, ts.hotel_room_ID AS Exposed_room_ID, ts.date_time_of_entrance, ts.date_time_of_exit, 
+				tb.NFC_ID AS Exposed_Customer, tb.date_time_of_entrance, tb.date_time_of_exit
+FROM Visit tb JOIN Visit ts
+ON  tb.NFC_ID = 4 AND  -- 4 -> 2 κρουσματα // 
+	tb.NFC_ID <> ts.NFC_ID AND
+    tb.hotel_room_ID = ts.hotel_room_ID AND
+    ((ts.date_time_of_entrance BETWEEN tb.date_time_of_entrance AND ADDTIME(tb.date_time_of_entrance, "72:00:00")) OR -- ΕΒΑΛΑ 72 ΩΡΕΣ ΜΕΤΑ ΤΟ ΠΕΡΙΣΤΑΤΙΚΟ
+	(ts.date_time_of_exit BETWEEN tb.date_time_of_entrance AND ADDTIME(tb.date_time_of_entrance, "72:00:00")));
 
 
 
