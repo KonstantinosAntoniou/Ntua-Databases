@@ -68,26 +68,30 @@ export default function Sessions() {
     /***************************************************************************************
      * Covid-19
      ***************************************************************************************/
-    const [sessionsPerEVVehicleId, setSessionsPerEVVehicleId] = React.useState(null);
-    const handleSessionsPerEVVehicleId = event => {
-        setSessionsPerEVVehicleId(event.target.value);
-    }
-    const [sessionsPerEVDateFrom, setSessionsPerEVDateFrom] = React.useState(new Date('2019-01-01'));
-    const handleSessionsPerEVDateFrom = dateFrom => {
-        setSessionsPerEVDateFrom(dateFrom);
-    }
-    const [sessionsPerEVDateTo, setSessionsPerEVDateTo] = React.useState(new Date('2019-12-01'));
-    const handleSessionsPerEVDateTo = dateTo => {
-        setSessionsPerEVDateTo(dateTo);
-    }
+
     const covidSubmitHandler = event => {
         event.preventDefault();
         history.push(`/covid/` );
     }
 
     /***************************************************************************************
-     * Sessions Per Station
+     * Covid-19 Suspects
      ***************************************************************************************/
+
+    const suspectsSubmitHandler = event => {
+        event.preventDefault();
+        history.push(`/suspects/` );
+    }
+
+    /***************************************************************************************
+     * Most Used
+     ***************************************************************************************/
+
+    const most_usedSubmitHandler = event => {
+        event.preventDefault();
+        history.push(`/most_used/` );
+    }
+
 
     return (
 
@@ -133,52 +137,41 @@ export default function Sessions() {
                 </Paper>
             </div>
 
-            <div className={classes.containerN}>
+            <div className={classes.containerC}>
                 <Paper elevation={6} className={classes.paper}>
                     <div className={classes.header}>
-                        <h3>Sessions per Point </h3>
+                        <h3>Covid-19 Suspects </h3>
                     </div>
-                    <Box display="flex" flexDirection="row" p={2} m={2} bgcolor="background.paper">
-                        <Box p={2} bgcolor="grey.300">
-                            Item 1
-                        </Box>
-                        <Box p={2} bgcolor="grey.300">
-                            Item 2
-                        </Box>
-                        <Box p={2} bgcolor="grey.300">
-                            Item 3
-                        </Box>
+                    <form autoComplete="off" onSubmit={suspectsSubmitHandler}>
 
-                        <Box p={2}>
-                            <Button className={classes.button} variant="contained" color="primary" type="submit">
-                                Search
-                            </Button>
+                        <Box display="flex" flexDirection="row" p={2} m={2} bgcolor="background.paper">
+                            <Box className={classes.boxButton} p={1} m={1}>
+                                <Button className={classes.button} variant="contained" color="primary" type="submit"
+                                        onSubmit={suspectsSubmitHandler}>
+                                    Search
+                                </Button>
+                            </Box>
                         </Box>
-                    </Box>
+                    </form>
                 </Paper>
             </div>
 
-            <div className={classes.containerN}>
+            <div className={classes.containerC}>
                 <Paper elevation={6} className={classes.paper}>
                     <div className={classes.header}>
-                        <h3>Sessions per Station </h3>
+                        <h3>Most Used </h3>
                     </div>
-                    <Box display="flex" flexDirection="row" p={2} m={2} bgcolor="background.paper">
-                        <Box p={2} bgcolor="grey.300">
-                            Item 1
+                    <form autoComplete="off" onSubmit={most_usedSubmitHandler}>
+
+                        <Box display="flex" flexDirection="row" p={2} m={2} bgcolor="background.paper">
+                            <Box className={classes.boxButton} p={1} m={1}>
+                                <Button className={classes.button} variant="contained" color="primary" type="submit"
+                                        onSubmit={most_usedSubmitHandler}>
+                                    Search
+                                </Button>
+                            </Box>
                         </Box>
-                        <Box p={2} bgcolor="grey.300">
-                            Item 2
-                        </Box>
-                        <Box p={2} bgcolor="grey.300">
-                            Item 3
-                        </Box>
-                        <Box p={2}>
-                            <Button className={classes.button} variant="contained" color="primary" type="submit">
-                                Search
-                            </Button>
-                        </Box>
-                    </Box>
+                    </form>
                 </Paper>
             </div>
 

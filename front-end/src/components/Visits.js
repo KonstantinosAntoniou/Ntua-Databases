@@ -60,10 +60,6 @@ function convertDate(date) {
 
 export default function Visits() {
 
-    //const [service, setService] = React.useState('');
-
-    //const handleChange = (event) => {
-    //    setService(event.target.value);
     const classes = useStyles();
     const history = useHistory();
 

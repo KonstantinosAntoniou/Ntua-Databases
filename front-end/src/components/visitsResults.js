@@ -75,25 +75,24 @@ const SPTable = ({list}) => {
     );
 }
 
-export default function SessionPerProviderTable() {
+export default function VisitsResults() {
     const path = window.location.pathname;
 
-    const mak = path.split('/')
-    const serviceId = mak[2]  //path.substring(21, path.length - 18);
-    const cost = mak[3]
-    const dateFrom = mak[4]//mak[4].substring(0,3) + '-' + mak[4].substring(4,5) + '-' + mak[4].substring(6,7) //path.substring(path.length - 17, path.length - 9);
-    const dateTo = mak[5]//path.substring(path.length - 8, path.length);
-    const token = 0//localStorage.getItem("access-token").toString().replace(/['"]+/g, '');
+    const foo = path.split('/')
+    const serviceId = foo[2]
+    const cost = foo[3]
+    const dateFrom = foo[4]
+    const dateTo = foo[5]
 
     const [data, setData] = React.useState(
         [
             {
-                hotel_room_ID: serviceId,
+                hotel_room_ID: 0,
                 description_of_position: '',
                 service_description: '',
                 date_time_of_entrance: '',
                 date_time_of_exit: '',
-                amount: cost,
+                amount: 0,
                 //FinishedOn: '',
                 //EnergyDelivered: 0.0,
                 //PricePolicyRef: 0,
@@ -112,7 +111,6 @@ export default function SessionPerProviderTable() {
         const url = 'http://localhost:8765/db/api/servicesCriteria/' + serviceId + '/' + cost + '/' + dateFrom + '/' + dateTo;
         axios.get(url, {
             headers: {
-                'x-observatory-auth': token
             }
         }).then(response => {
             setData(response.data);
