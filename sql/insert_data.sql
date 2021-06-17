@@ -14,8 +14,8 @@ INSERT INTO Customer (firstname, lastname, dateofbirth, number_of_indentificatio
                 ('Konstantinos', 'Papadopoulos', '1950-01-25', 'AI-147825', 'ID', 'T.A. Athens'),
                 ('Ioannis', 'Sotiriou', '1985-11-12', 'AL-222525', 'ID', 'T.A. Athens'),
                 ('Giorgos', 'Antoniou', '1990-06-14', 'AK-996545', 'ID', 'T.A. Thessalonikis'),
-                ('Nikos', 'Anastasiou', '1999-04-23', 'AL-441236', 'ID', 'T.A. Evoias'),
-                ('Sakis', 'Almaliotis', '2000-03-14', 'AI-432525', 'ID', 'T.A. Thessalonikis');
+                ('Nikos', 'Anastasiou', '1975-04-23', 'AL-441236', 'ID', 'T.A. Evoias'),
+                ('Sakis', 'Almaliotis', '1977-03-14', 'AI-432525', 'ID', 'T.A. Thessalonikis');
 
 
 INSERT INTO Customer_emails(NFC_ID, email) VALUES 

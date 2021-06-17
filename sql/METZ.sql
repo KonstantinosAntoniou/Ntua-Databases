@@ -7,15 +7,33 @@ SELECT hotel_room_ID, name_of_the_room, date_time_of_entrance, date_time_of_exit
 FROM Visit USE INDEX(visit_date_and_time) JOIN Hotel_rooms USING (hotel_room_ID)
 WHERE Visit.NFC_ID = 1;  -- εδω βαζεις το ιδ που θες καθε φορα
 
-SELECT service_ID, service_description, COUNT(service_ID) AS Used_times -- 11β αλλαζεις ηλικιες και το 30 με 365 και εισαι κομπλε
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "20-40" AS AGE_GROUP -- 11β αλλαζεις το 30 με 365 και εισαι κομπλε
 FROM Services
 JOIN Provided_to USING (service_ID)
 JOIN Hotel_rooms USING (hotel_room_ID)
 JOIN Visit USING (hotel_room_ID)
 JOIN Customer USING (NFC_ID)
 WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
-GROUP BY service_ID
-ORDER BY COUNT(service_ID) DESC;
+GROUP BY service_ID, AGE_GROUP
+UNION
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "40-60" AS AGE_GROUP 
+FROM Services
+JOIN Provided_to USING (service_ID)
+JOIN Hotel_rooms USING (hotel_room_ID)
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 41 AND 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
+GROUP BY service_ID, AGE_GROUP
+UNION
+SELECT service_ID, service_description, COUNT(service_ID) AS Used_times, "61+" AS AGE_GROUP 
+FROM Services
+JOIN Provided_to USING (service_ID)
+JOIN Hotel_rooms USING (hotel_room_ID)
+JOIN Visit USING (hotel_room_ID)
+JOIN Customer USING (NFC_ID)
+WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365)
+GROUP BY service_ID, AGE_GROUP
+ORDER BY AGE_GROUP, Used_times DESC;
 
 -- προσπαθησα και το 11γ και βγαλω ολα τα unique pairs μεταξυ service id και nfc_id απλα δεν μπορεσα να τα μετρησω ωστε να βρουμε ποια υπηρεσια 
 -- εχει τους περισσοτερους 
