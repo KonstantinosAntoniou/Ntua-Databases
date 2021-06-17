@@ -137,12 +137,99 @@ CREATE TRIGGER check_reservation
 BEFORE INSERT ON Have_access
     FOR EACH ROW
     BEGIN
-        IF (EXISTS (SELECT * FROM Have_access WHERE new.hotel_room_ID = hotel_room_ID AND NOT (new.ending_time_date <= starting_time_date OR new.starting_time_date >= ending_time_date))) THEN
+        IF (EXISTS (SELECT * FROM Have_access WHERE new.hotel_room_ID = hotel_room_ID AND new.hotel_room_ID < 100 AND NOT (new.ending_time_date <= starting_time_date OR new.starting_time_date >= ending_time_date))) THEN
         signal sqlstate '45000' set message_text = 'Room is already occupied';
 		end if;
 	end;
 
 $$
 
+CREATE TRIGGER check_time_have_access1
+BEFORE INSERT ON Have_access
+    FOR EACH ROW
+    BEGIN
+        IF (new.starting_time_date > NOW() OR new.ending_time_date > NOW()) THEN
+        signal sqlstate '45000' set message_text = 'Cant reference future time';
+            end if;
+        end;
+
+$$
+
+CREATE TRIGGER check_time_have_access2
+BEFORE UPDATE ON Have_access
+    FOR EACH ROW
+    BEGIN
+        IF (new.starting_time_date > NOW() OR new.ending_time_date > NOW()) THEN
+        signal sqlstate '45000' set message_text = 'Cant reference future time';
+            end if;
+        end;
+
+$$
+
+CREATE TRIGGER check_time_registered1
+BEFORE INSERT ON Registered_to_services
+    FOR EACH ROW
+    BEGIN
+        IF (new.datetime_of_registration > NOW()) THEN
+        signal sqlstate '45000' set message_text = 'Cant reference future time';
+            end if;
+        end;
+
+$$
+
+CREATE TRIGGER check_time_registered2
+BEFORE UPDATE ON Registered_to_services
+    FOR EACH ROW
+    BEGIN
+        IF (new.datetime_of_registration > NOW()) THEN
+        signal sqlstate '45000' set message_text = 'Cant reference future time';
+            end if;
+        end;
+
+$$
+
+CREATE TRIGGER check_time_visit1
+BEFORE INSERT ON Visit
+    FOR EACH ROW
+    BEGIN
+        IF (new.date_time_of_entrance > NOW() OR new.date_time_of_exit > NOW()) THEN
+        signal sqlstate '45000' set message_text = 'Cant reference future time';
+            end if;
+        end;
+
+$$
+
+CREATE TRIGGER check_time_visit2
+BEFORE UPDATE ON Visit
+    FOR EACH ROW
+    BEGIN
+        IF (new.date_time_of_entrance > NOW() OR new.date_time_of_exit > NOW()) THEN
+        signal sqlstate '45000' set message_text = 'Cant reference future time';
+            end if;
+        end;
+
+$$
+
+CREATE TRIGGER check_time_charge1
+BEFORE INSERT ON Charge_for_service
+    FOR EACH ROW
+    BEGIN
+        IF (new.datetime_of_the_event > NOW()) THEN
+        signal sqlstate '45000' set message_text = 'Cant reference future time';
+            end if;
+        end;
+
+$$
+
+CREATE TRIGGER check_time_charge2
+BEFORE UPDATE ON Charge_for_service
+    FOR EACH ROW
+    BEGIN
+        IF (new.datetime_of_the_event > NOW()) THEN
+        signal sqlstate '45000' set message_text = 'Cant reference future time';
+            end if;
+        end;
+
+$$
 
 DELIMITER ;
