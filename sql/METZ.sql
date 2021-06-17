@@ -35,18 +35,57 @@ WHERE number_of_beds = 0 AND (YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND
 GROUP BY service_ID, AGE_GROUP
 ORDER BY AGE_GROUP, Used_times DESC;
 
--- προσπαθησα και το 11γ και βγαλω ολα τα unique pairs μεταξυ service id και nfc_id απλα δεν μπορεσα να τα μετρησω ωστε να βρουμε ποια υπηρεσια 
--- εχει τους περισσοτερους 
+-- 11γ
 
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "20-40" AS AGE_GROUP FROM(
 SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
 FROM Charge_for_service
 JOIN Customer USING (NFC_ID)
 JOIN Services USING (service_ID) 
 JOIN Provided_to USING (service_ID)
 JOIN Visit USING (hotel_room_ID)
-WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365));
+WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 20 AND 40) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365))) T
+group by service_ID, AGE_GROUP
+UNION
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "41-60" AS AGE_GROUP FROM(
+SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
+FROM Charge_for_service
+JOIN Customer USING (NFC_ID)
+JOIN Services USING (service_ID) 
+JOIN Provided_to USING (service_ID)
+JOIN Visit USING (hotel_room_ID)
+WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) BETWEEN 41 AND 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365))) T
+group by service_ID, AGE_GROUP
+UNION
+SELECT service_ID, service_description, COUNT(*) as Users_using_this_service, "61+" AS AGE_GROUP FROM(
+SELECT DISTINCT Charge_for_service.NFC_ID, Service_ID, service_description
+FROM Charge_for_service
+JOIN Customer USING (NFC_ID)
+JOIN Services USING (service_ID) 
+JOIN Provided_to USING (service_ID)
+JOIN Visit USING (hotel_room_ID)
+WHERE service_ID <>0 AND ((YEAR(NOW()) - YEAR(Customer.dateofbirth) > 60) AND (DATE(NOW()) - DATE(Visit.date_time_of_entrance) < 365))) T
+group by service_ID, AGE_GROUP
+ORDER BY AGE_GROUP, Users_using_this_service DESC;
+
+SELECT * FROM Servises;  -- 7 απλα υπηρεσιες
+SELECT * FROM Services_that_need_registration;  -- αυτα τα 2 ειναι με το κριτηριο ειδος υπηρεσιας
+SELECT * FROM Services_that_dont_need_registration;
+
+SELECT hotel_room_ID, description_of_position, service_description  -- αυτο ειναι με δεδομενη ημερομηνια
+FROM Visit
+JOIN Hotel_rooms USING (hotel_room_ID)
+JOIN Provided_to USING (hotel_room_ID)
+JOIN Services USING (service_ID)
+WHERE service_ID <> 0 AND (DATE(Visit.date_time_of_entrance) = '2021-04-23'); --βαζεις το date που θες
+
+SELECT DISTINCT service_ID, service_description, amount   -- αναλογα το ποσό
+FROM Charge_for_service
+JOIN Services USING (service_ID)
+WHERE service_ID <> 0 AND (service_ID IN (SELECT service_ID from Services_that_need_registration));
 
 -- το 11α δεν καταλαβα τι θελει να του βγαλω
+
 -- επισης εφτιαξα ολα τα δεδομενα να εχουν σωστους χρονους ως προς την ημερομηνια που εχουμε
 -- εβαλα και εξτρα triggers και το τελευταιο view
 -- επισης στο customerController ελεγα να βαλουμε αυτο 
