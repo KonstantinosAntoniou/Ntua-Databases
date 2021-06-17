@@ -97,7 +97,7 @@ function getServiceVisitsWithCriteria (req, res) {
     const helpfull = `3>2`
     const must_register = req.body.must_register;
 
-    if(must_register=='yes') {
+    if(must_register=='yes' || amount) {
         get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
             + "FROM Visit "
             + "JOIN Hotel_rooms USING (hotel_room_ID) "
