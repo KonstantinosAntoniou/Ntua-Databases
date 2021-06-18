@@ -80,7 +80,7 @@ exports.getRoom2 = function(req,res){
 */
 
 function getAllRooms (req, res) {
-    get_All_Rooms = `SELECT h.hotel_room_ID, h.number_of_beds, h.name_of_the_room FROM Hotel_rooms as h;`
+    get_All_Rooms = `SELECT * FROM Hotel_rooms as h;`
     db.query(get_All_Rooms, (err, rows) => {
         if(err) res.status(400).send(err.message) 
         else res.send(rows)

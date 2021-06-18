@@ -112,14 +112,11 @@ function getCustomer (req, res) {
 }
 exports.getCustomer = getCustomer;
 
-
-
 function getAllCustomers (req, res) {
-    get_All_Customers = `SELECT c.NFC_ID, c.firstname, c.lastname, c.number_of_indentification_document FROM Customer as c;`
+    get_All_Customers = `SELECT c.NFC_ID, c.firstname, c.lastname FROM Customer as c;`
     db.query(get_All_Customers, (err, rows) => {
         if(err) res.status(400).send(err.message) 
         else res.send(rows)
     })
 }
 exports.getAllCustomers = getAllCustomers;
-
