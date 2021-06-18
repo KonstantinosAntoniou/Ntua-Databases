@@ -55,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
 function convertDate(date) {
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
-    return [date.getFullYear(), month, day].join("");
+    return [date.getFullYear(),'-',month, '-' ,day].join("");
 }
 
 export default function Visits() {
@@ -74,9 +74,9 @@ export default function Visits() {
     const handleVisitDateFrom = dateFrom => {
         setVisitDateFrom(dateFrom);
     }
-    const [visitDateTo, setVisitDateTo] = React.useState(new Date('2019-12-01'));
-    const handleVisitDateTo = dateTo => {
-        setVisitDateTo(dateTo);
+    const [mustRegistered, setMustRegistered] = React.useState(null);
+    const handleMustRegistered = event => {
+        setMustRegistered(event.target.value);
     }
     const [cost, setCost] = React.useState(null);
     const handleCost = event => {
@@ -84,7 +84,7 @@ export default function Visits() {
     }
     const visitsSubmitHandler = event => {
         event.preventDefault();
-        history.push(`/visitsResults/` + service + `/` + cost + '/' + convertDate(visitDateFrom) + `/` + convertDate(visitDateTo));
+        history.push(`/visitsResults/` + service + `/` + cost + '/' + convertDate(visitDateFrom) + `/` + mustRegistered);
     }
 
 
@@ -139,16 +139,12 @@ export default function Visits() {
                             </Box>
 
                             <Box p={2}>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <KeyboardDatePicker
-                                        format="yyyy/MM/dd"
-                                        margin="normal"
-                                        id="dateTo"
-                                        label="Date To"
-                                        value={visitDateTo}
-                                        onChange={handleVisitDateTo}
-                                    />
-                                </MuiPickersUtilsProvider>
+                                <FormControl margin="normal" fullWidth>
+                                    <InputLabel htmlFor="providerId" shrink={true}>Must Registered</InputLabel>
+                                    <Input required={false} id="providerId" type="string"
+                                           value={mustRegistered}
+                                           onChange={e => handleMustRegistered(e)}/>
+                                </FormControl>
                             </Box>
 
                             <Box p={2}>

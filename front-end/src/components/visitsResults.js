@@ -82,7 +82,7 @@ export default function VisitsResults() {
     const serviceId = foo[2]
     const cost = foo[3]
     const dateFrom = foo[4]
-    const dateTo = foo[5]
+    const mustRegistered = foo[5]
 
     const [data, setData] = React.useState(
         [
@@ -108,7 +108,7 @@ export default function VisitsResults() {
 
     const loadData = async () => {
 
-        const url = 'http://localhost:8765/db/api/servicesCriteria/' + serviceId + '/' + cost + '/' + dateFrom + '/' + dateTo;
+        const url = 'http://localhost:8765/db/api/servicesCriteria/' + serviceId + '/' + cost + '/' + dateFrom + '/' + mustRegistered;
         axios.get(url, {
             headers: {
             }
