@@ -49,11 +49,11 @@ const SPTable = ({list}) => {
                 <Table className={classes.table} size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell align='left'><b>Customer ID</b></TableCell>
+                            <TableCell align='left'><b>Possibly Exposed Customer's NFC ID</b></TableCell>
                             <TableCell align='left'><b>Exposed Room ID</b></TableCell>
                             <TableCell align='left'><b>Time of Entrance</b></TableCell>
                             <TableCell align='left'><b>Time of Exit</b></TableCell>
-                            <TableCell align='left'><b>Possibly Exposed From Customer</b></TableCell>
+                            <TableCell align='left'><b>Possibly Exposed From Customer With NFC ID</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

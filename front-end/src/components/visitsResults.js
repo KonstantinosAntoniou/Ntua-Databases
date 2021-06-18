@@ -49,6 +49,7 @@ const SPTable = ({list}) => {
                 <Table className={classes.table} size="small">
                     <TableHead>
                         <TableRow>
+                            <TableCell align='left'><b>NFC ID</b></TableCell>
                             <TableCell align='left'><b>Room ID</b></TableCell>
                             <TableCell align='left'><b>Position</b></TableCell>
                             <TableCell align='left'><b>Service</b></TableCell>
@@ -60,6 +61,7 @@ const SPTable = ({list}) => {
                     <TableBody>
                         {list && list.map(session => (
                             <TableRow key={session.SessionID}>
+                                <TableCell>{session.NFC_ID}</TableCell>
                                 <TableCell>{session.hotel_room_ID}</TableCell>
                                 <TableCell>{session.description_of_position}</TableCell>
                                 <TableCell>{session.service_description}</TableCell>
@@ -87,6 +89,7 @@ export default function VisitsResults() {
     const [data, setData] = React.useState(
         [
             {
+                NFC_ID: 0,
                 hotel_room_ID: 0,
                 description_of_position: '',
                 service_description: '',
