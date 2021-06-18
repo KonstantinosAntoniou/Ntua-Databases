@@ -11,19 +11,19 @@ exports.getAllServices = getAllServices;
 
 
 function getServiceVisitsWithCriteria (req, res) {
-    if(req.params.service_ID != -1) {var service_ID = (req.params.service_ID) ? `service_ID=${req.params.service_ID} AND` : "";}
+    if(req.params.service_ID != 'null' && req.params.service_ID != -1) {var service_ID = (req.params.service_ID) ? `service_ID=${req.params.service_ID} AND` : "";}
     else {var service_ID = (req.body.service_ID) ? `service_ID=${req.body.service_ID} AND` : "";}
     if(req.params.amount != -1) {var amount = (req.params.amount) ? `amount=${req.params.amount} AND` : "";}
     else {var amount = (req.body.amount) ? `amount=${req.body.amount} AND` : "";}
-    if(req.params.date_time_of_entrance != -1) {var date_time_of_entrance = (req.params.date_time_of_entrance) ? `DATE(Visit.date_time_of_entrance)='${req.params.date_time_of_entrance}' AND` : "";}
-    else {var date_time_of_entrance = (req.body.date_time_of_entrance) ? `DATE(Visit.date_time_of_entrance)='${req.body.date_time_of_entrance}' AND` : "";}
+    if(req.params.date_time_of_entrance != -1) {var date_time_of_entrance = (req.params.date_time_of_entrance) ? `DATE(Visit_history.date_time_of_entrance)='${req.params.date_time_of_entrance}' AND` : "";}
+    else {var date_time_of_entrance = (req.body.date_time_of_entrance) ? `DATE(Visit_history.date_time_of_entrance)='${req.body.date_time_of_entrance}' AND` : "";}
     if(req.params.must_register != -1) {var must_register = req.params.must_register;}
     else {var must_register = req.body.must_register;}
     const helpfull = `3>2`;
 
     if(must_register=='yes' || amount) {
-        get_Services_criteria = "SELECT DISTINCT Visit.NFC_ID, hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
-            + "FROM Visit "
+        get_Services_criteria = "SELECT DISTINCT Visit_history.NFC_ID, hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
+            + "FROM Visit_history "
             + "JOIN Hotel_rooms USING (hotel_room_ID) "
             + "JOIN Provided_to USING (hotel_room_ID) "
             + "JOIN Services USING (service_ID) "
@@ -33,8 +33,8 @@ function getServiceVisitsWithCriteria (req, res) {
     }
 
     else if(must_register=='no') {
-        get_Services_criteria = "SELECT DISTINCT Visit.NFC_ID, hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, 'no cost' as amount "
-            + "FROM Visit "
+        get_Services_criteria = "SELECT DISTINCT Visit_history.NFC_ID, hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, 'no cost' as amount "
+            + "FROM Visit_history "
             + "JOIN Hotel_rooms USING (hotel_room_ID) "
             + "JOIN Provided_to USING (hotel_room_ID) "
             + "JOIN Services USING (service_ID) "
@@ -42,8 +42,8 @@ function getServiceVisitsWithCriteria (req, res) {
             + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${helpfull};`
     }
     else {
-        get_Services_criteria0 = "SELECT DISTINCT Visit.NFC_ID, hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
-            + "FROM Visit "
+        get_Services_criteria0 = "SELECT DISTINCT Visit_history.NFC_ID, hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
+            + "FROM Visit_history "
             + "JOIN Hotel_rooms USING (hotel_room_ID) "
             + "JOIN Provided_to USING (hotel_room_ID) "
             + "JOIN Services USING (service_ID) "
@@ -51,8 +51,8 @@ function getServiceVisitsWithCriteria (req, res) {
             + "JOIN Charge_for_service USING (service_ID) "
             + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull}`
 
-        get_Services_criteria1 = "SELECT DISTINCT Visit.NFC_ID, hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, 'no cost' as amount "
-            + "FROM Visit "
+        get_Services_criteria1 = "SELECT DISTINCT Visit_history.NFC_ID, hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, 'no cost' as amount "
+            + "FROM Visit_history "
             + "JOIN Hotel_rooms USING (hotel_room_ID) "
             + "JOIN Provided_to USING (hotel_room_ID) "
             + "JOIN Services USING (service_ID) "
