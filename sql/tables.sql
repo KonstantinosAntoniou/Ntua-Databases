@@ -28,10 +28,9 @@ CREATE TABLE Customer_phones(
 );
 
 CREATE TABLE Services(
-    -- service_ID INT NOT NULL IDENTITY(1,1),
-    -- service_ID INT NOT NULL AUTO_INCREMENT,
     service_ID INT NOT NULL,
     service_description VARCHAR(50) NOT NULL,
+    reg_or_no_reg INT NOT NULL, -- 0 if need registration and 1 if not
     PRIMARY KEY (service_ID)
 );
 
@@ -70,8 +69,8 @@ CREATE TABLE Visit(
     date_time_of_entrance DATETIME NOT NULL,
     date_time_of_exit DATETIME NOT NULL,
     PRIMARY KEY (NFC_ID, hotel_room_ID, date_time_of_entrance),
-    FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE,
-    FOREIGN KEY (hotel_room_ID) REFERENCES Hotel_rooms(hotel_room_ID) ON DELETE CASCADE
+    FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE cascade,
+    FOREIGN KEY (hotel_room_ID) REFERENCES Hotel_rooms(hotel_room_ID) ON DELETE cascade
 );
 
 CREATE TABLE Registered_to_services(
@@ -110,4 +109,19 @@ CREATE TABLE Receive_services(
     FOREIGN KEY (service_ID) REFERENCES Services(service_ID) ON DELETE CASCADE,
     FOREIGN KEY (NFC_ID) REFERENCES Customer(NFC_ID) ON DELETE CASCADE,
     FOREIGN KEY (datetime_of_the_event) REFERENCES Charge_for_service(datetime_of_the_event) ON DELETE CASCADE
+);
+
+CREATE TABLE Visit_history(
+	NFC_ID INT NOT NULL,
+    hotel_room_ID INT NOT NULL,
+    date_time_of_entrance DATETIME NOT NULL,
+    date_time_of_exit DATETIME NOT NULL
+);
+
+CREATE TABLE Transactions_history(
+	datetime_of_the_event DATETIME NOT NULL,
+    charge_description VARCHAR(80) NOT NULL,
+    amount INT NOT NULL,
+    NFC_ID INT NOT NULL,
+    service_ID INT NOT NULL
 );
