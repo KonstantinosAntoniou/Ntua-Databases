@@ -10,6 +10,7 @@ import mostUsedAreas from './components/mostUsedAreas';
 import mostFreqServ from './components/mostFreqServ';
 import mostUsedServ from './components/mostUsedServ';
 import suspects from './components/covid_suspects';
+import find_suspects from './components/find_covid_suspects';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 //import {AuthContext} from "./context/authentication";
 //import SessionsPerEV from "./components/SessionsPerEV";
@@ -35,6 +36,7 @@ function App() {
             <Route path='/mostFreqServ/' exact={true} component={mostFreqServ}/>
             <Route path='/mostUsedServ/' exact={true} component={mostUsedServ}/>
             <Route path='/suspects/' exact={true} component={suspects}/>
+            <Route path='/find_covid_suspects/:id' exact={true} component={find_suspects}/>
             <Route path='/visitsResults/:service/:cost/:dateFrom/:dateTo' exact={true} component={visitsResults}/>
           </Switch>
         </Router>

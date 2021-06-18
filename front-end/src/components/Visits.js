@@ -58,6 +58,19 @@ function convertDate(date) {
     return [date.getFullYear(),'-',month, '-' ,day].join("");
 }
 
+function convertion(date){
+    if (date == '-1'){
+        return -1
+    }
+    else {
+        const foo = date.split('/')
+        const day = foo[0]
+        const month = foo[1]
+        const year = foo[2]
+        return [year+'-'+month+'-'+day]
+    }
+}
+
 export default function Visits() {
 
     const classes = useStyles();
@@ -70,21 +83,26 @@ export default function Visits() {
     const handleService = event => {
         setService(event.target.value);
     }
-    const [visitDateFrom, setVisitDateFrom] = React.useState(new Date('2019-01-01'));
-    const handleVisitDateFrom = dateFrom => {
-        setVisitDateFrom(dateFrom);
+    //const [visitDateFrom, setVisitDateFrom] = React.useState(new Date('2021-04-02'));
+    //const handleVisitDateFrom = dateFrom => {
+    //    setVisitDateFrom(dateFrom);
+    //}
+
+    const [date, setDate] = React.useState('-1');
+    const handleDate = event => {
+        setDate(event.target.value);
     }
-    const [mustRegistered, setMustRegistered] = React.useState(null);
+    const [mustRegistered, setMustRegistered] = React.useState(-1);
     const handleMustRegistered = event => {
         setMustRegistered(event.target.value);
     }
-    const [cost, setCost] = React.useState(null);
+    const [cost, setCost] = React.useState(-1);
     const handleCost = event => {
         setCost(event.target.value);
     }
     const visitsSubmitHandler = event => {
         event.preventDefault();
-        history.push(`/visitsResults/` + service + `/` + cost + '/' + convertDate(visitDateFrom) + `/` + mustRegistered);
+        history.push(`/visitsResults/` + service + `/` + cost + '/' + convertion(date) + `/` + mustRegistered);
     }
 
 
@@ -114,6 +132,7 @@ export default function Visits() {
                                         value={service}
                                         onChange={e => handleService(e)}
                                     >
+                                        <MenuItem value={-1}>All Services</MenuItem>
                                         <MenuItem value={0}>Room</MenuItem>
                                         <MenuItem value={1}>Bar</MenuItem>
                                         <MenuItem value={2}>Restaurant</MenuItem>
@@ -125,18 +144,7 @@ export default function Visits() {
                                 </FormControl>
                             </Box>
 
-                            <Box p={2}>
-                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                    <KeyboardDatePicker
-                                        format="yyyy/MM/dd"
-                                        margin="normal"
-                                        id="dateFrom"
-                                        label="Date From"
-                                        value={visitDateFrom}
-                                        onChange={handleVisitDateFrom}
-                                    />
-                                </MuiPickersUtilsProvider>
-                            </Box>
+
 
                             <Box p={2}>
                                 <FormControl margin="normal" fullWidth>
@@ -144,6 +152,15 @@ export default function Visits() {
                                     <Input required={false} id="providerId" type="string"
                                            value={mustRegistered}
                                            onChange={e => handleMustRegistered(e)}/>
+                                </FormControl>
+                            </Box>
+
+                            <Box p={2}>
+                                <FormControl margin="normal" fullWidth>
+                                    <InputLabel htmlFor="providerId" shrink={true}>Date</InputLabel>
+                                    <Input required={false} id="providerId" type="string"
+                                           value={date}
+                                           onChange={e => handleDate(e)}/>
                                 </FormControl>
                             </Box>
 

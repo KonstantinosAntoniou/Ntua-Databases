@@ -4,7 +4,10 @@
     <list default="true" id="73df28ab-7116-4bbb-af75-7b34c912135f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/../back-end/controller/db.js" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/controller/db.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../back-end/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/../back-end/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Visits.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Visits.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/covid_suspects.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/covid_suspects.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +50,19 @@
       <recent name="C:\Users\anast\Desktop\Databases\Ntua-Databases\front-end\my-app\src\components" />
     </key>
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -57,7 +73,7 @@
       <updated>1623932336624</updated>
       <workItem from="1623932339327" duration="31224000" />
       <workItem from="1623969643672" duration="675000" />
-      <workItem from="1624015496398" duration="1374000" />
+      <workItem from="1624015496398" duration="7460000" />
     </task>
     <servers />
   </component>
