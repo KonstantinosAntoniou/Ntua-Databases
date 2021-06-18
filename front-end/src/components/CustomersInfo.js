@@ -51,7 +51,7 @@ const SPTable = ({list}) => {
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={9}>
                 <Toolbar className={classes.bar}>
-                    <Typography variant="h5">Customers Informations </Typography>
+                    <Typography variant="h5">Customers Information </Typography>
                 </Toolbar>
                 <Table className={classes.table} size="small">
                     <TableHead>
@@ -76,7 +76,7 @@ const SPTable = ({list}) => {
     );
 }
 
-export default function ExposedAreas() {
+export default function CustomersInfo() {
 
     const classes = useStyles();
     const history = useHistory();
@@ -135,8 +135,8 @@ export default function ExposedAreas() {
 
                             <Box p={2}>
                                 <FormControl margin="normal" fullWidth>
-                                    <InputLabel htmlFor="providerId" shrink={true}>ID</InputLabel>
-                                    <Input required={false} id="providerId" type="number"
+                                    <InputLabel htmlFor="Id" shrink={true}>ID</InputLabel>
+                                    <Input required={false} id="Id" type="number"
                                            value={NFCid}
                                            onChange={e => handleNFCId(e)}/>
                                 </FormControl>

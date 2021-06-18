@@ -54,7 +54,7 @@ const SPTable = ({list}) => {
                             <TableCell align='left'><b>Service</b></TableCell>
                             <TableCell align='left'><b>Time of Entrance</b></TableCell>
                             <TableCell align='left'><b>Time of Exit</b></TableCell>
-                            <TableCell align='left'><b>Amount of Cost</b></TableCell>
+                            <TableCell align='left'><b>Cost</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -93,11 +93,6 @@ export default function VisitsResults() {
                 date_time_of_entrance: '',
                 date_time_of_exit: '',
                 amount: 0,
-                //FinishedOn: '',
-                //EnergyDelivered: 0.0,
-                //PricePolicyRef: 0,
-                //CostPerKWh: 0.0,
-                //TotalCost: 0.0,
             }
         ]
     );

@@ -100,7 +100,6 @@ export default function MostUsedAreas() {
         const url = 'http://localhost:8765/db/api/mostUsedRooms';
         axios.get(url, {
             headers: {
-                // 'x-observatory-auth': token
             }
         }).then(response => {
             setData(response.data);

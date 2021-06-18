@@ -44,26 +44,20 @@ const SPTable = ({list}) => {
         <div className={classes.root}>
             <Paper className={classes.paper} elevation={9}>
                 <Toolbar className={classes.bar}>
-                    <Typography variant="h5">Possibly Exposed Customers </Typography>
+                    <Typography variant="h5">Services </Typography>
                 </Toolbar>
                 <Table className={classes.table} size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell align='left'><b>Customer ID</b></TableCell>
-                            <TableCell align='left'><b>Exposed Room ID</b></TableCell>
-                            <TableCell align='left'><b>Time of Entrance</b></TableCell>
-                            <TableCell align='left'><b>Time of Exit</b></TableCell>
-                            <TableCell align='left'><b>Possibly Exposed From Customer</b></TableCell>
+                            <TableCell align='left'><b>Service ID</b></TableCell>
+                            <TableCell align='left'><b>Service Description</b></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {list && list.map(session => (
                             <TableRow key={session.SessionID}>
-                                <TableCell>{session.Possibly_exposed_customer_ID}</TableCell>
-                                <TableCell>{session.Exposed_room_ID}</TableCell>
-                                <TableCell>{moment(new Date(session.date_time_of_entrance)).format("HH:mm:ss.SSS A on D MMM YYYY")}</TableCell>
-                                <TableCell>{moment(new Date(session.date_time_of_exit)).format("HH:mm:ss.SSS A on D MMM YYYY")}</TableCell>
-                                <TableCell>{session.Possibly_Exposed_From_Customer}</TableCell>
+                                <TableCell>{session.service_ID}</TableCell>
+                                <TableCell>{session.service_description}</TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -73,21 +67,13 @@ const SPTable = ({list}) => {
     );
 }
 
-export default function FindCovidSuspects() {
-    const path = window.location.pathname;
-
-    const foo = path.split('/')
-    const CustomerId = foo[2]
-
+export default function ExposedAreas() {
 
     const [data, setData] = React.useState(
         [
             {
-                Possibly_exposed_customer_ID: 0,
-                Exposed_room_ID: 0,
-                date_time_of_entrance: '',
-                date_time_of_exit: '',
-                Possibly_Exposed_From_Customer: 0,
+                service_ID: 0,
+                service_description: 0,
             }
         ]
     );
@@ -98,7 +84,7 @@ export default function FindCovidSuspects() {
 
     const loadData = async () => {
 
-        const url = 'http://localhost:8765/db/api/detectCovid/' + CustomerId ;
+        const url = 'http://localhost:8765/db/api/services';
         axios.get(url, {
             headers: {
             }

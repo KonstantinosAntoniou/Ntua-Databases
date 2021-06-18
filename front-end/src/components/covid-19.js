@@ -52,18 +52,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function convertDate(date) {
-    const month = ("0" + (date.getMonth() + 1)).slice(-2);
-    const day = ("0" + date.getDate()).slice(-2);
-    return [date.getFullYear(), month, day].join("");
-}
+export default function Covid_19() {
 
-export default function Visits() {
-
-    //const [service, setService] = React.useState('');
-
-    //const handleChange = (event) => {
-    //    setService(event.target.value);
     const classes = useStyles();
     const history = useHistory();
 
@@ -90,7 +80,7 @@ export default function Visits() {
             <div className={classes.containerC}>
                 <Paper elevation={6} className={classes.paper}>
                     <div className={classes.header}>
-                        <h3>Insert the Customer ID Patient</h3>
+                        <h3>Insert the Exposed Customer's ID</h3>
                     </div>
                     <form autoComplete="off" onSubmit={idSubmitHandler}>
 
@@ -98,8 +88,8 @@ export default function Visits() {
 
                             <Box p={2}>
                                 <FormControl margin="normal" fullWidth>
-                                    <InputLabel htmlFor="providerId" shrink={true}>ID</InputLabel>
-                                    <Input required={false} id="providerId" type="number"
+                                    <InputLabel htmlFor="Id" shrink={true}>ID</InputLabel>
+                                    <Input required={false} id="Id" type="number"
                                            value={id}
                                            onChange={e => handleId(e)}/>
                                 </FormControl>

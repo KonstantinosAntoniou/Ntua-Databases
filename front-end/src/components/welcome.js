@@ -45,13 +45,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function convertDate(date) {
-    const month = ("0" + (date.getMonth() + 1)).slice(-2);
-    const day = ("0" + date.getDate()).slice(-2);
-    return [date.getFullYear(), month, day].join("");
-}
 
-export default function Sessions() {
+export default function Welcome() {
 
     const classes = useStyles();
     const history = useHistory();
@@ -74,14 +69,6 @@ export default function Sessions() {
         history.push(`/covid/` );
     }
 
-    /***************************************************************************************
-     * Covid-19 Suspects
-     ***************************************************************************************/
-
-    const suspectsSubmitHandler = event => {
-        event.preventDefault();
-        history.push(`/suspects/` );
-    }
 
     /***************************************************************************************
      * Most Used
@@ -121,7 +108,7 @@ export default function Sessions() {
             <div className={classes.containerC}>
                 <Paper elevation={6} className={classes.paper}>
                     <div className={classes.header}>
-                        <h3>Covid-19 Check </h3>
+                        <h3>Track Exposed Customer </h3>
                     </div>
                     <form autoComplete="off" onSubmit={covidSubmitHandler}>
 
@@ -137,29 +124,11 @@ export default function Sessions() {
                 </Paper>
             </div>
 
-            <div className={classes.containerC}>
-                <Paper elevation={6} className={classes.paper}>
-                    <div className={classes.header}>
-                        <h3>Covid-19 Suspects </h3>
-                    </div>
-                    <form autoComplete="off" onSubmit={suspectsSubmitHandler}>
-
-                        <Box display="flex" flexDirection="row" p={2} m={2} bgcolor="background.paper">
-                            <Box className={classes.boxButton} p={1} m={1}>
-                                <Button className={classes.button} variant="contained" color="primary" type="submit"
-                                        onSubmit={suspectsSubmitHandler}>
-                                    Search
-                                </Button>
-                            </Box>
-                        </Box>
-                    </form>
-                </Paper>
-            </div>
 
             <div className={classes.containerC}>
                 <Paper elevation={6} className={classes.paper}>
                     <div className={classes.header}>
-                        <h3>Most Used </h3>
+                        <h3>Statistics </h3>
                     </div>
                     <form autoComplete="off" onSubmit={most_usedSubmitHandler}>
 

@@ -46,13 +46,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function convertDate(date) {
-    const month = ("0" + (date.getMonth() + 1)).slice(-2);
-    const day = ("0" + date.getDate()).slice(-2);
-    return [date.getFullYear(), month, day].join("");
-}
-
-export default function Sessions() {
+export default function WelcomePage() {
 
     const classes = useStyles();
     const history = useHistory();
@@ -74,6 +68,14 @@ export default function Sessions() {
     const RoomsSubmitHandler = event => {
         event.preventDefault();
         history.push(`/rooms/` );
+    }
+    /***************************************************************************************
+     * Services info
+     ***************************************************************************************/
+
+    const ServSubmitHandler = event => {
+        event.preventDefault();
+        history.push(`/ServicesInfo/` );
     }
 
     /***************************************************************************************
@@ -110,7 +112,7 @@ export default function Sessions() {
             <div className={classes.containerC}>
                 <Paper elevation={6} className={classes.paper}>
                     <div className={classes.header}>
-                        <h3>Customers Informations </h3>
+                        <h3>Customers Information </h3>
                     </div>
                     <form autoComplete="off" onSubmit={CustomersSubmitHandler}>
 
@@ -129,7 +131,7 @@ export default function Sessions() {
             <div className={classes.containerC}>
                 <Paper elevation={6} className={classes.paper}>
                     <div className={classes.header}>
-                        <h3>Rooms Informations </h3>
+                        <h3>Rooms Information </h3>
                     </div>
                     <form autoComplete="off" onSubmit={RoomsSubmitHandler}>
 
@@ -148,7 +150,26 @@ export default function Sessions() {
             <div className={classes.containerC}>
                 <Paper elevation={6} className={classes.paper}>
                     <div className={classes.header}>
-                        <h3>More Informations </h3>
+                        <h3>Services Information </h3>
+                    </div>
+                    <form autoComplete="off" onSubmit={ServSubmitHandler}>
+
+                        <Box display="flex" flexDirection="row" p={2} m={2} bgcolor="background.paper">
+                            <Box className={classes.boxButton} p={1} m={1}>
+                                <Button className={classes.button} variant="contained" color="primary" type="submit"
+                                        onSubmit={ServSubmitHandler}>
+                                    Search
+                                </Button>
+                            </Box>
+                        </Box>
+                    </form>
+                </Paper>
+            </div>
+
+            <div className={classes.containerC}>
+                <Paper elevation={6} className={classes.paper}>
+                    <div className={classes.header}>
+                        <h3>More Information </h3>
                     </div>
                     <form autoComplete="off" onSubmit={MoreInfoSubmitHandler}>
 

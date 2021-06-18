@@ -43,54 +43,6 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-/*
-const Cell = ({list, isOpen}) => {
-
-    return (
-        <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
-            <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                <Box margin={1}>
-                    <Typography style={{paddingTop: 10, paddingLeft: 20, color: 'grey'}} variant="h6" gutterBottom component="div">
-                        <b>Charging Sessions</b>
-                    </Typography>
-                    <Table size="small">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell></TableCell>
-                                <TableCell><b>Session</b></TableCell>
-                                <TableCell><b>Energy Provider</b></TableCell>
-                                <TableCell><b>Started on</b></TableCell>
-                                <TableCell><b>Finished on</b></TableCell>
-                                <TableCell><b>Energy Delivered</b></TableCell>
-                                <TableCell><b>Price Policy Ref</b></TableCell>
-                                <TableCell><b>Cost/KWh</b></TableCell>
-                                <TableCell><b>Cost</b></TableCell>
-                                <TableCell><b>Index</b></TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {list.map((session, index) => (
-                                <TableRow key={session.SessionID}>
-                                    <TableCell><b>{index + 1}</b></TableCell>
-                                    <TableCell>{session.SessionID}</TableCell>
-                                    <TableCell>{session.EnergyProvider}</TableCell>
-                                    <TableCell>{session.StartedOn}</TableCell>
-                                    <TableCell>{session.FinishedOn}</TableCell>
-                                    <TableCell>{session.EnergyDelivered}</TableCell>
-                                    <TableCell>{session.PricePolicyRef}</TableCell>
-                                    <TableCell>{session.CostPerKWh}</TableCell>
-                                    <TableCell>{session.SessionCost}</TableCell>
-                                    <TableCell>{session.SessionIndex}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </Box>
-            </Collapse>
-        </TableCell>
-    );
-}
-*/
 export default function MoreCustomersInfo() {
 
     const classes = useStyles();
@@ -98,7 +50,6 @@ export default function MoreCustomersInfo() {
     const foo = path.split('/')
     const NFCId = foo[2]
 
-    const [open, setOpen] = React.useState(false);
     const [data, setData] = React.useState(
 
         [
@@ -110,8 +61,10 @@ export default function MoreCustomersInfo() {
                 number_of_indentification_document: '',
                 type_of_indentification_document: '',
                 issuing_authority: '',
-                phones: '',
-                emails: '',
+                phone1: '',
+                phone2: '',
+                email1: '',
+                email2: '',
             }
         ]
     );
@@ -131,7 +84,21 @@ export default function MoreCustomersInfo() {
         })
     }
 
-    //const mak = data.phones
+    const fooPhone = data.phone2
+    const fooEmail = data.email2
+    let finalPhone = ''
+    let finalEmail = ''
+    if (fooPhone !== ' '){
+        finalPhone = ',' + fooPhone
+    } else {
+        finalPhone = fooPhone
+    }
+    if (fooEmail !== ' '){
+        finalEmail = ',' + fooEmail
+    } else {
+        finalEmail = fooEmail
+    }
+
     return (
         <div>
             <NavBar/>
@@ -161,10 +128,10 @@ export default function MoreCustomersInfo() {
                                 <Typography variant="h7">Issuing Authority: <b>{data.issuing_authority}</b></Typography>
                             </Grid>
                             <Grid item xs>
-                                <Typography variant="h7">Phone(s): <b>{data.phones}</b></Typography>
+                                <Typography variant="h7">Phone(s): <b>{data.phone1 + finalPhone}</b></Typography>
                             </Grid>
                             <Grid item xs>
-                                <Typography variant="h7">Email(s): <b>{data.emails}</b></Typography>
+                                <Typography variant="h7">Email(s): <b>{data.email1 + finalEmail}</b></Typography>
                             </Grid>
                         </Grid>
                     </Toolbar>

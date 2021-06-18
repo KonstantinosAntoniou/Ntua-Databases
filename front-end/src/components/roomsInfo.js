@@ -72,10 +72,6 @@ const SPTable = ({list}) => {
 }
 
 export default function ExposedAreas() {
-    const path = window.location.pathname;
-
-    const foo = path.split('/')
-    const Id = foo[2]
 
     const [data, setData] = React.useState(
         [

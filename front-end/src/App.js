@@ -15,6 +15,7 @@ import find_suspects from './components/find_covid_suspects';
 import RoomsInfo from './components/roomsInfo';
 import Customers from './components/CustomersInfo';
 import NFCInfo from './components/nfcInfo';
+import ServiceInfo from './components/ServiceInfo';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 //import {AuthContext} from "./context/authentication";
 //import SessionsPerEV from "./components/SessionsPerEV";
@@ -33,6 +34,7 @@ function App() {
           <Switch>
             <Route path='/' exact={true} component={welcomePage}/>
             <Route path='/moreInfo/' exact={true} component={welcome}/>
+            <Route path='/ServicesInfo/' exact={true} component={ServiceInfo}/>
             <Route path='/costumers/' exact={true} component={Customers}/>
             <Route path='/covid/' exact={true} component={covid}/>
             <Route path='/rooms/' exact={true} component={RoomsInfo}/>

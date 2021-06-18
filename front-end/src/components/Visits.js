@@ -52,14 +52,8 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-function convertDate(date) {
-    const month = ("0" + (date.getMonth() + 1)).slice(-2);
-    const day = ("0" + date.getDate()).slice(-2);
-    return [date.getFullYear(),'-',month, '-' ,day].join("");
-}
-
-function convertion(date){
-    if (date == '-1'){
+function conversion(date){
+    if (date === ''){
         return -1
     }
     else {
@@ -68,6 +62,20 @@ function convertion(date){
         const month = foo[1]
         const year = foo[2]
         return [year+'-'+month+'-'+day]
+    }
+}
+function convertInts(Number){
+    if (Number === ''){
+        return -1
+    }else{
+        return Number
+    }
+}
+function convertMustReturn(something){
+    if (something === ''){
+        return -1
+    }else{
+        return something
     }
 }
 
@@ -83,26 +91,23 @@ export default function Visits() {
     const handleService = event => {
         setService(event.target.value);
     }
-    //const [visitDateFrom, setVisitDateFrom] = React.useState(new Date('2021-04-02'));
-    //const handleVisitDateFrom = dateFrom => {
-    //    setVisitDateFrom(dateFrom);
-    //}
 
-    const [date, setDate] = React.useState('-1');
+
+    const [date, setDate] = React.useState('');
     const handleDate = event => {
         setDate(event.target.value);
     }
-    const [mustRegistered, setMustRegistered] = React.useState(-1);
+    const [mustRegistered, setMustRegistered] = React.useState('');
     const handleMustRegistered = event => {
         setMustRegistered(event.target.value);
     }
-    const [cost, setCost] = React.useState(-1);
+    const [cost, setCost] = React.useState('');
     const handleCost = event => {
         setCost(event.target.value);
     }
     const visitsSubmitHandler = event => {
         event.preventDefault();
-        history.push(`/visitsResults/` + service + `/` + cost + '/' + convertion(date) + `/` + mustRegistered);
+        history.push(`/visitsResults/` + service + `/` + convertInts(cost) + '/' + conversion(date) + `/` + convertMustReturn(mustRegistered));
     }
 
 
@@ -148,8 +153,8 @@ export default function Visits() {
 
                             <Box p={2}>
                                 <FormControl margin="normal" fullWidth>
-                                    <InputLabel htmlFor="providerId" shrink={true}>Must Registered</InputLabel>
-                                    <Input required={false} id="providerId" type="string"
+                                    <InputLabel htmlFor="foo" shrink={true}>Must Registered</InputLabel>
+                                    <Input required={false} id="must_registered" type="string"
                                            value={mustRegistered}
                                            onChange={e => handleMustRegistered(e)}/>
                                 </FormControl>
@@ -157,8 +162,8 @@ export default function Visits() {
 
                             <Box p={2}>
                                 <FormControl margin="normal" fullWidth>
-                                    <InputLabel htmlFor="providerId" shrink={true}>Date</InputLabel>
-                                    <Input required={false} id="providerId" type="string"
+                                    <InputLabel htmlFor="date" shrink={true}>Date</InputLabel>
+                                    <Input required={false} id="date" type="string"
                                            value={date}
                                            onChange={e => handleDate(e)}/>
                                 </FormControl>
@@ -166,8 +171,8 @@ export default function Visits() {
 
                             <Box p={2}>
                                 <FormControl margin="normal" fullWidth>
-                                    <InputLabel htmlFor="providerId" shrink={true}>Cost</InputLabel>
-                                    <Input required={false} id="providerId" type="number"
+                                    <InputLabel htmlFor="cost" shrink={true}>Cost</InputLabel>
+                                    <Input required={false} id="cost" type="number"
                                            value={cost}
                                            onChange={e => handleCost(e)}/>
                                 </FormControl>
