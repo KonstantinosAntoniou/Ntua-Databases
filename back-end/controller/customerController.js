@@ -1,5 +1,65 @@
-//const db = require('../server.js')
 const db = require('./db.js');
+
+function getCustomer (req, res) {
+    get_Customer = `SELECT * FROM Customer JOIN Customer_phones USING (NFC_ID) JOIN Customer_emails USING (NFC_ID) WHERE NFC_ID=${req.params.NFC_ID};`
+    db.query(get_Customer, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else {
+            let phone1 = ' '
+            let phone2 = ' '
+            let email1 = ' '
+            let email2 = ' '
+            
+            const phones0 = Object.keys(rows).map(key => rows[key].phone)
+            const emails0 = Object.keys(rows).map(key => rows[key].email)
+            let phones = phones0.filter((item, pos ,self) => self.indexOf(item) == pos)
+            let emails = emails0.filter((item, pos ,self) => self.indexOf(item) == pos)
+
+            phone1 = phones[0]
+            email1 = emails[0]
+            if(phones.length>1) phone2 = phones[1]
+            if(emails.length>1) email2 = phones[1]
+            const final = {...rows[0], phone1, phone2, email1, email2}
+            delete final['phone']
+            delete final['email']
+            res.send(final)
+        }
+    })
+}
+exports.getCustomer = getCustomer;
+
+
+function getAllCustomers (req, res) {
+    get_All_Customers = `SELECT c.NFC_ID, c.firstname, c.lastname FROM Customer as c;`
+    db.query(get_All_Customers, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else res.send(rows)
+    })
+}
+exports.getAllCustomers = getAllCustomers;
+
+
+
+
+
+/*function getCustomer (req, res) {
+    get_Customer = `SELECT * FROM Customer JOIN Customer_phones USING (NFC_ID) JOIN Customer_emails USING (NFC_ID) WHERE NFC_ID=${req.params.NFC_ID};`
+    db.query(get_Customer, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else {
+            const phones0 = Object.keys(rows).map(key => rows[key].phone)
+            const emails0 = Object.keys(rows).map(key => rows[key].email)
+            let phones = phones0.filter((item, pos ,self) => self.indexOf(item) == pos)
+            let emails = emails0.filter((item, pos ,self) => self.indexOf(item) == pos)
+
+            const final = {...rows[0], phones, emails}
+            delete final['phone']
+            delete final['email']
+            res.send(final)
+        }
+    })
+}
+exports.getCustomer = getCustomer;
 
 function insertCustomer (req, res) {
     const phones_0 = req.body.phone
@@ -90,63 +150,4 @@ function deleteCustomer (req, res) {
     })
 }
 exports.deleteCustomer = deleteCustomer
-
-
-
-/*function getCustomer (req, res) {
-    get_Customer = `SELECT * FROM Customer JOIN Customer_phones USING (NFC_ID) JOIN Customer_emails USING (NFC_ID) WHERE NFC_ID=${req.params.NFC_ID};`
-    db.query(get_Customer, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else {
-            const phones0 = Object.keys(rows).map(key => rows[key].phone)
-            const emails0 = Object.keys(rows).map(key => rows[key].email)
-            let phones = phones0.filter((item, pos ,self) => self.indexOf(item) == pos)
-            let emails = emails0.filter((item, pos ,self) => self.indexOf(item) == pos)
-
-            const final = {...rows[0], phones, emails}
-            delete final['phone']
-            delete final['email']
-            res.send(final)
-        }
-    })
-}
-exports.getCustomer = getCustomer;
 */
-
-function getCustomer (req, res) {
-    get_Customer = `SELECT * FROM Customer JOIN Customer_phones USING (NFC_ID) JOIN Customer_emails USING (NFC_ID) WHERE NFC_ID=${req.params.NFC_ID};`
-    db.query(get_Customer, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else {
-            let phone1 = ' '
-            let phone2 = ' '
-            let email1 = ' '
-            let email2 = ' '
-            
-            const phones0 = Object.keys(rows).map(key => rows[key].phone)
-            const emails0 = Object.keys(rows).map(key => rows[key].email)
-            let phones = phones0.filter((item, pos ,self) => self.indexOf(item) == pos)
-            let emails = emails0.filter((item, pos ,self) => self.indexOf(item) == pos)
-
-            phone1 = phones[0]
-            email1 = emails[0]
-            if(phones.length>1) phone2 = phones[1]
-            if(emails.length>1) email2 = phones[1]
-            const final = {...rows[0], phone1, phone2, email1, email2}
-            delete final['phone']
-            delete final['email']
-            res.send(final)
-        }
-    })
-}
-exports.getCustomer = getCustomer;
-
-
-function getAllCustomers (req, res) {
-    get_All_Customers = `SELECT c.NFC_ID, c.firstname, c.lastname FROM Customer as c;`
-    db.query(get_All_Customers, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else res.send(rows)
-    })
-}
-exports.getAllCustomers = getAllCustomers;

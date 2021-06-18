@@ -1,84 +1,4 @@
-//const db = require('../server.js')
 const db = require('./db.js');
-
-function insertService (req, res) {
-    const newService = "INSERT INTO Services (service_ID,service_description)"
-        + "VALUES ("
-        + '"' + `${req.body.service_ID}` + '"' + ','
-        + '"' + `${req.body.service_description}");`
-    
-    db.query(newService, async (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else {
-            const register = req.body.must_register
-            let service_ID = req.body.service_ID
-
-            if(register) db.query(`INSERT INTO Services_that_need_registration VALUES (${service_ID});`)
-            else db.query(`INSERT INTO Services_that_dont_need_registration VALUES (${service_ID});`)
-            
-            res.send("Service Inserted Successfully")
-        }
-    })
-}
-exports.insertService = insertService
-
-
-function updateService (req, res) {
-    const service_ID = req.params.service_ID
-    const service_description = (req.body.service_description) ? `service_description='${req.body.service_description}'` : ""
-    
-    const update_Service = `UPDATE Services SET ${service_description} WHERE service_ID=${service_ID};`
-    
-    const deleteRegSer = `DELETE FROM Services_that_need_registration WHERE service_ID=${service_ID};`
-    const deleteUnRegSer = `DELETE FROM Services_that_dont_need_registration WHERE service_ID=${service_ID};`
-
-    db.query(update_Service, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else {
-            const register = req.body.must_register
-            if(register) {
-                db.query(deleteRegSer, async (err2, rows) => {
-                    if(err2) res.status(400).send(err2.message) 
-                    else db.query(`INSERT INTO Services_that_need_registration VALUES (${service_ID});`)
-                })
-            }
-            else {
-                db.query(deleteUnRegSer, async (err3, rows) => {
-                    if(err3) res.status(400).send(err3.message) 
-                    else db.query(`INSERT INTO Services_that_dont_need_registration VALUES (${service_ID});`)
-                })
-            }
-            res.send("Service Updated Successfully")
-        }
-    })
-}
-exports.updateService = updateService
-
-
-function deleteService (req, res) {
-    delete_Service = `DELETE FROM Services WHERE service_ID=${req.params.service_ID};`
-    db.query(delete_Service, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else {
-            db.query(`DELETE FROM Services_that_need_registration WHERE service_ID=${req.params.service_ID};`)
-            db.query(`DELETE FROM Services_that_dont_need_registration WHERE service_ID=${req.params.service_ID};`)
-            res.send("Service Deleted Successfully")
-        }
-    })
-}
-exports.deleteService = deleteService
-
-
-function getService (req, res) {
-    get_Service = `SELECT * FROM Services WHERE service_ID=${req.params.service_ID};`
-    db.query(get_Service, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else res.send(rows)
-    })
-}
-exports.getService = getService;
-
-
 
 function getAllServices (req, res) {
     get_All_Services = `SELECT s.service_ID, s.service_description FROM Services s;`
@@ -151,50 +71,80 @@ exports.getServiceVisitsWithCriteria = getServiceVisitsWithCriteria;
 
 
 /*
-function getServiceVisitsWithCriteria (req, res) {
-    const date_time_of_entrance = (req.params.date_time_of_entrance) ? `DATE(Visit.date_time_of_entrance)='${req.params.date_time_of_entrance}' AND` : ""
-    const service_ID = (req.params.service_ID) ? `service_ID=${req.params.service_ID} AND` : ""
-    const amount = (req.params.amount) ? `amount=${req.params.amount} AND` : ""
-    const helpfull = `3>2`
-    const must_register = req.params.must_register;
+function getService (req, res) {
+    get_Service = `SELECT * FROM Services WHERE service_ID=${req.params.service_ID};`
+    db.query(get_Service, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else res.send(rows)
+    })
+}
+exports.getService = getService;
 
 
-   
-            if(must_register=='yes') {
-                get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
-                    + "FROM Visit "
-                    + "JOIN Hotel_rooms USING (hotel_room_ID) "
-                    + "JOIN Provided_to USING (hotel_room_ID) "
-                    + "JOIN Services USING (service_ID) "
-                    + "JOIN Services_that_need_registration USING (service_ID) "
-                    + "JOIN Charge_for_service USING (service_ID) "
-                    + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};`
-            }
-        
-            else if(must_register=='no') {
-                get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
-                    + "FROM Visit "
-                    + "JOIN Hotel_rooms USING (hotel_room_ID) "
-                    + "JOIN Provided_to USING (hotel_room_ID) "
-                    + "JOIN Services USING (service_ID) "
-                    + "JOIN Services_that_dont_need_registration USING (service_ID) "
-                    + "JOIN Charge_for_service USING (service_ID) "
-                    + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};`
+function insertService (req, res) {
+    const newService = "INSERT INTO Services (service_ID,service_description)"
+        + "VALUES ("
+        + '"' + `${req.body.service_ID}` + '"' + ','
+        + '"' + `${req.body.service_description}");`
+    
+    db.query(newService, async (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else {
+            const register = req.body.must_register
+            let service_ID = req.body.service_ID
+
+            if(register) db.query(`INSERT INTO Services_that_need_registration VALUES (${service_ID});`)
+            else db.query(`INSERT INTO Services_that_dont_need_registration VALUES (${service_ID});`)
+            
+            res.send("Service Inserted Successfully")
+        }
+    })
+}
+exports.insertService = insertService
+
+
+function updateService (req, res) {
+    const service_ID = req.params.service_ID
+    const service_description = (req.body.service_description) ? `service_description='${req.body.service_description}'` : ""
+    
+    const update_Service = `UPDATE Services SET ${service_description} WHERE service_ID=${service_ID};`
+    
+    const deleteRegSer = `DELETE FROM Services_that_need_registration WHERE service_ID=${service_ID};`
+    const deleteUnRegSer = `DELETE FROM Services_that_dont_need_registration WHERE service_ID=${service_ID};`
+
+    db.query(update_Service, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else {
+            const register = req.body.must_register
+            if(register) {
+                db.query(deleteRegSer, async (err2, rows) => {
+                    if(err2) res.status(400).send(err2.message) 
+                    else db.query(`INSERT INTO Services_that_need_registration VALUES (${service_ID});`)
+                })
             }
             else {
-                get_Services_criteria = "SELECT DISTINCT hotel_room_ID, description_of_position, service_description, date_time_of_entrance, date_time_of_exit, amount "
-                    + "FROM Visit "
-                    + "JOIN Hotel_rooms USING (hotel_room_ID) "
-                    + "JOIN Provided_to USING (hotel_room_ID) "
-                    + "JOIN Services USING (service_ID) "
-                    + "JOIN Charge_for_service USING (service_ID) "
-                    + `WHERE service_ID <> 0 AND ${date_time_of_entrance} ${service_ID} ${amount} ${helpfull};`
+                db.query(deleteUnRegSer, async (err3, rows) => {
+                    if(err3) res.status(400).send(err3.message) 
+                    else db.query(`INSERT INTO Services_that_dont_need_registration VALUES (${service_ID});`)
+                })
             }
-        
-            db.query(get_Services_criteria, (err, rows) => {
-                if(err) res.status(400).send(err.message)
-                else res.send(rows)
-            })
+            res.send("Service Updated Successfully")
         }
-        exports.getServiceVisitsWithCriteria = getServiceVisitsWithCriteria;
-    */
+    })
+}
+exports.updateService = updateService
+
+
+function deleteService (req, res) {
+    delete_Service = `DELETE FROM Services WHERE service_ID=${req.params.service_ID};`
+    db.query(delete_Service, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else {
+            db.query(`DELETE FROM Services_that_need_registration WHERE service_ID=${req.params.service_ID};`)
+            db.query(`DELETE FROM Services_that_dont_need_registration WHERE service_ID=${req.params.service_ID};`)
+            res.send("Service Deleted Successfully")
+        }
+    })
+}
+exports.deleteService = deleteService
+*/

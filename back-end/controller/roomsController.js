@@ -1,21 +1,24 @@
-//const db = require('../server.js');
 const db = require('./db.js');
 
-/*function insertRoom (req, res) {
-    const newRoom = "INSERT INTO Hotel_rooms (hotel_room_ID,number_of_beds, name_of_the_room, description_of_position)"
-        + "VALUES ("
-        + `${req.body.hotel_room_ID},`
-        + `${req.body.number_of_beds},`
-        + `'${req.body.name_of_the_room}',`
-        + `'${req.body.description_of_position}');`
-    
-    db.query(newRoom, async (err, rows) => {
+function getAllRooms (req, res) {
+    get_All_Rooms = `SELECT * FROM Hotel_rooms as h;`
+    db.query(get_All_Rooms, (err, rows) => {
         if(err) res.status(400).send(err.message) 
-        else res.send({"message": rows.message})
+        else res.send(rows)
     })
 }
-exports.insertRoom = insertRoom
-*/
+exports.getAllRooms = getAllRooms;
+
+/*
+function getRoom (req, res) {
+    get_Room = `SELECT * FROM Hotel_rooms WHERE hotel_room_ID=${req.params.hotel_room_ID};`
+    db.query(get_Room, (err, rows) => {
+        if(err) res.status(400).send(err.message) 
+        else res.send(rows)
+    })
+}
+exports.getRoom = getRoom;
+
 
 function insertRoom (req, res) {
     const newRoom = "INSERT INTO Hotel_rooms (hotel_room_ID,number_of_beds, name_of_the_room, description_of_position)"
@@ -57,33 +60,4 @@ function deleteRoom (req, res) {
     })
 }
 exports.deleteRoom = deleteRoom
-
-
-
-function getRoom (req, res) {
-    get_Room = `SELECT * FROM Hotel_rooms WHERE hotel_room_ID=${req.params.hotel_room_ID};`
-    db.query(get_Room, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else res.send(rows)
-    })
-}
-exports.getRoom = getRoom;
-
-/*
-exports.getRoom2 = function(req,res){
-    get_Room2 = `SELECT * FROM Hotel_rooms WHERE hotel_room_ID=${req.params.hotel_room_ID};`
-    sql.query(get_Room2, function(err2,res2){
-        if(err2) res.status(400).send(err2.message)
-        else res.send(res2)
-    })
-}
 */
-
-function getAllRooms (req, res) {
-    get_All_Rooms = `SELECT * FROM Hotel_rooms as h;`
-    db.query(get_All_Rooms, (err, rows) => {
-        if(err) res.status(400).send(err.message) 
-        else res.send(rows)
-    })
-}
-exports.getAllRooms = getAllRooms;
