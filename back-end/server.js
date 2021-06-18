@@ -13,7 +13,7 @@ var bodyParser = require('body-parser');
 let db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'mysqlpassword',  //Your Password HERE!
+    password: '123456q!',  //Your Password HERE!
     database: 'ntuadb'
 });
 
