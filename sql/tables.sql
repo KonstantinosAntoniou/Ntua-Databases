@@ -112,6 +112,7 @@ CREATE TABLE Receive_services(
 );
 
 CREATE TABLE Visit_history(
+	visit_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	NFC_ID INT NOT NULL,
     hotel_room_ID INT NOT NULL,
     date_time_of_entrance DATETIME NOT NULL,
@@ -119,6 +120,7 @@ CREATE TABLE Visit_history(
 );
 
 CREATE TABLE Transactions_history(
+	transaction_ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	datetime_of_the_event DATETIME NOT NULL,
     charge_description VARCHAR(80) NOT NULL,
     amount INT NOT NULL,
