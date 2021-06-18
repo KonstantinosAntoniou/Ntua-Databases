@@ -81,7 +81,7 @@ exports.getService = getService;
 
 
 function getAllServices (req, res) {
-    get_All_Services = `SELECT * FROM Services;`
+    get_All_Services = `SELECT s.service_ID, s.service_description FROM Services s;`
     db.query(get_All_Services, (err, rows) => {
         if(err) res.status(400).send(err.message) 
         else res.send(rows)
