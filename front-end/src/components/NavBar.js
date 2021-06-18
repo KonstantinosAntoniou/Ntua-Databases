@@ -39,7 +39,7 @@ export default function NavBar() {
                 <Toolbar>
                     <Tooltip title="Home" placement="left-start">
                         <Link
-                            //href="/sessions"
+                            href="/"
                             className={classes.homeButton}
                             color="inherit"
                         >

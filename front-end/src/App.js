@@ -17,17 +17,9 @@ import Customers from './components/CustomersInfo';
 import NFCInfo from './components/nfcInfo';
 import ServiceInfo from './components/ServiceInfo';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-//import {AuthContext} from "./context/authentication";
-//import SessionsPerEV from "./components/SessionsPerEV";
+
 
 function App() {
-
-  const [authToken, setAuthToken] = React.useState();
-
-  const setToken = (data) => {
-    localStorage.setItem("access-token", JSON.stringify(data));
-    setAuthToken(data);
-  }
 
   return (
         <Router>
