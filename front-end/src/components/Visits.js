@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 
 function conversion(date){
     if (date === ''){
-        return -1
+        return null
     }
     else {
         const foo = date.split('/')
@@ -66,14 +66,14 @@ function conversion(date){
 }
 function convertInts(Number){
     if (Number === ''){
-        return -1
+        return null
     }else{
         return Number
     }
 }
 function convertMustReturn(something){
     if (something === ''){
-        return -1
+        return null
     }else{
         return something
     }
@@ -137,7 +137,6 @@ export default function Visits() {
                                         value={service}
                                         onChange={e => handleService(e)}
                                     >
-                                        <MenuItem value={-1}>All Services</MenuItem>
                                         <MenuItem value={0}>Room</MenuItem>
                                         <MenuItem value={1}>Bar</MenuItem>
                                         <MenuItem value={2}>Restaurant</MenuItem>

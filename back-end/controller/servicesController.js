@@ -11,13 +11,13 @@ exports.getAllServices = getAllServices;
 
 
 function getServiceVisitsWithCriteria (req, res) {
-    if(req.params.service_ID != 'null' && req.params.service_ID != -1) {var service_ID = (req.params.service_ID) ? `service_ID=${req.params.service_ID} AND` : "";}
+    if(req.params.service_ID != 'null') {var service_ID = (req.params.service_ID) ? `service_ID=${req.params.service_ID} AND` : "";}
     else {var service_ID = (req.body.service_ID) ? `service_ID=${req.body.service_ID} AND` : "";}
-    if(req.params.amount != -1) {var amount = (req.params.amount) ? `amount=${req.params.amount} AND` : "";}
+    if(req.params.amount != 'null') {var amount = (req.params.amount) ? `amount=${req.params.amount} AND` : "";}
     else {var amount = (req.body.amount) ? `amount=${req.body.amount} AND` : "";}
-    if(req.params.date_time_of_entrance != -1) {var date_time_of_entrance = (req.params.date_time_of_entrance) ? `DATE(Visit_history.date_time_of_entrance)='${req.params.date_time_of_entrance}' AND` : "";}
+    if(req.params.date_time_of_entrance != 'null') {var date_time_of_entrance = (req.params.date_time_of_entrance) ? `DATE(Visit_history.date_time_of_entrance)='${req.params.date_time_of_entrance}' AND` : "";}
     else {var date_time_of_entrance = (req.body.date_time_of_entrance) ? `DATE(Visit_history.date_time_of_entrance)='${req.body.date_time_of_entrance}' AND` : "";}
-    if(req.params.must_register != -1) {var must_register = req.params.must_register;}
+    if(req.params.must_register != 'null') {var must_register = req.params.must_register;}
     else {var must_register = req.body.must_register;}
     const helpfull = `3>2`;
 
