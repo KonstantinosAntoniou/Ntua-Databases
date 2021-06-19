@@ -54,7 +54,7 @@ INSERT INTO Customer_phones(NFC_ID, phone) VALUES
         (15, '6972002535');
 
 
-INSERT INTO Services(service_ID, service_description, reg_or_no_reg) VALUES -- + μια στηλη
+INSERT INTO Services(service_ID, service_description, reg_or_no_reg) VALUES 
         (0, 'room', 0), -- pseudo service
         (1, 'bar', 0),
         (2, 'restaurant', 0),
@@ -63,18 +63,6 @@ INSERT INTO Services(service_ID, service_description, reg_or_no_reg) VALUES -- +
         (5, 'conference room', 1),
         (6, 'sauna', 1);
 
-/*  happens with triggers
-INSERT INTO Services_that_need_registration(service_ID) VALUES
-        (0),
-        (4),
-        (5),
-        (6);
-
-INSERT INTO Services_that_dont_need_registration(service_ID) VALUES
-        (1),
-        (2),
-        (3);
-*/
 INSERT INTO Hotel_rooms(hotel_room_ID, number_of_beds, name_of_the_room, description_of_position) VALUES
         (1, 2, 'Room-1', 'First floor east corridor'),
         (2, 4, 'Room-2', 'First floor east corridor'),

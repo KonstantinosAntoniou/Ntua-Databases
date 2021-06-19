@@ -7,7 +7,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
-	password : 'mysqlpassword',
+	password : 'mysqlpassword',  //Your Password HERE!
 	database : 'ntuadb'
 });
 
