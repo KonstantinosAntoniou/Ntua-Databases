@@ -133,8 +133,19 @@ BEFORE UPDATE ON Charge_for_service
 
 $$
 
-CREATE TRIGGER check_reservation 
+CREATE TRIGGER check_reservation1
 BEFORE INSERT ON Have_access
+    FOR EACH ROW
+    BEGIN
+        IF (EXISTS (SELECT * FROM Have_access WHERE new.hotel_room_ID = hotel_room_ID AND new.hotel_room_ID < 100 AND NOT (new.ending_time_date <= starting_time_date OR new.starting_time_date >= ending_time_date))) THEN
+        signal sqlstate '45000' set message_text = 'Room is already occupied';
+		end if;
+	end;
+
+$$
+
+CREATE TRIGGER check_reservation2
+BEFORE UPDATE ON Have_access
     FOR EACH ROW
     BEGIN
         IF (EXISTS (SELECT * FROM Have_access WHERE new.hotel_room_ID = hotel_room_ID AND new.hotel_room_ID < 100 AND NOT (new.ending_time_date <= starting_time_date OR new.starting_time_date >= ending_time_date))) THEN
@@ -250,6 +261,29 @@ AFTER UPDATE ON Visit
 
 $$
 
+CREATE TRIGGER room_lower1
+BEFORE INSERT ON Provided_to
+    FOR EACH ROW
+    BEGIN
+        IF ((new.hotel_room_ID < 100 AND new.service_ID <>0) OR
+            (new.hotel_room_ID > 100 AND new.service_ID = 0)) THEN
+        signal sqlstate '45000' set message_text = 'Rooms have an Id of less than 100';
+        end if;
+    end;
+
+$$
+
+CREATE TRIGGER room_lower2
+BEFORE UPDATE ON Provided_to
+    FOR EACH ROW
+    BEGIN
+        IF ((new.hotel_room_ID < 100 AND new.service_ID <>0) OR
+            (new.hotel_room_ID > 100 AND new.service_ID = 0)) THEN
+        signal sqlstate '45000' set message_text = 'Rooms have an Id of less than 100';
+        end if;
+    end;
+
+$$
 
 CREATE TRIGGER have_access1
 BEFORE INSERT ON Have_access
